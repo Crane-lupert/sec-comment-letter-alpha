@@ -1,0 +1,45 @@
+[project]
+name = "sec-comment-letter-alpha"
+version = "0.1.0"
+description = "Project X — Cross-sectional equity alpha from SEC UPLOAD/CORRESP filings via multi-LLM ensemble"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas>=2.2",
+    "polars>=1.0",
+    "numpy>=1.26",
+    "scipy>=1.13",
+    "statsmodels>=0.14",
+    "httpx>=0.27",
+    "pyyaml>=6.0",
+    "python-dotenv>=1.0",
+    "tenacity>=8.2",
+    "filelock>=3.15",
+    "yfinance>=0.2.40",
+    "pyarrow>=16",
+    "streamlit>=1.35",
+    "plotly>=5.22",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "pytest-cov>=5",
+    "ruff>=0.5",
+    "mypy>=1.10",
+    "jupyter>=1",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["sec_comment_letter_alpha"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
