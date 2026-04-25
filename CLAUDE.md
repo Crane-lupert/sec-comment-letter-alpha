@@ -15,7 +15,7 @@ SEC EDGAR UPLOAD (SEC → 기업) + CORRESP (기업 → SEC) 30K 건을 LLM ense
 - SEC 데이터: `D:\vscode\portfolio-coordination\sec-data\edgar-raw\upload-corresp\` 에서 read. **직접 SEC 호출 금지**
 - OpenRouter: `shared_utils.openrouter_client.OpenRouterClient(project="X")` 사용, project cap=8
 - 체크포인트: 매일 08:00 / 20:00 KST `portfolio-coordination/checkpoints/<date>/project-x.md` 작성
-- 상세: [coordination 규칙](../../meta-harness/audits/2026-04-25-multi-repo-coordination.md)
+- 상세 조율 규칙: `D:/vscode/portfolio-coordination/CLAUDE.md` 및 `D:/vscode/meta-harness/audits/2026-04-25-multi-repo-coordination.md`
 
 ---
 
@@ -23,10 +23,12 @@ SEC EDGAR UPLOAD (SEC → 기업) + CORRESP (기업 → SEC) 30K 건을 LLM ense
 
 ### Day 1 — Pipeline + 수집 kickoff
 작업:
-- Repo 초기화 (`uv init`, `pip install -e ../portfolio-coordination/shared-utils`)
+- 환경 셋업 (`uv venv`, `uv pip install -e .`, `uv pip install -e D:/vscode/portfolio-coordination/shared-utils`, `.env` 작성)
+- `shared_utils` import 확인 (`python -c "from shared_utils.sec_client import fetch_from_cache_or_queue"`)
 - SEC queue 에 UPLOAD/CORRESP 요청 등록 (Russell 3000 × 2015-2024)
-- `src/x/pipeline.py` 골격 (data loader, segment extractor, LLM wrapper, statistical tests)
-- Saniy 10 건 random sample 로 end-to-end dry-run
+- `src/sec_comment_letter_alpha/pipeline.py` 골격 (data loader, segment extractor, LLM wrapper, statistical tests)
+- Sanity 10 건 random sample 로 end-to-end dry-run
+- 저녁 체크포인트 작성 (`shared_utils.checkpoint.write_checkpoint(project="X", ...)`)
 
 **Advance Gate (Day 1 EOD)**:
 - SEC queue 에 1000+ 요청 등록됨
