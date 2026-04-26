@@ -29,7 +29,8 @@ except ImportError:
     raise SystemExit("streamlit + plotly not available; install via `uv pip install streamlit plotly`")
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-DATA = REPO_ROOT / "data"
+_BUNDLED = Path(__file__).resolve().parent / "data_for_app"
+DATA = _BUNDLED if _BUNDLED.exists() else REPO_ROOT / "data"
 
 st.set_page_config(page_title="SEC Comment Letter Alpha", layout="wide")
 

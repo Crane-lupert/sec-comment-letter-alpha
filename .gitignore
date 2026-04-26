@@ -25,6 +25,10 @@ cache/
 *.parquet
 *.feather
 
+# Exception: bundled dashboard data for Streamlit Cloud deploy
+!dashboard/data_for_app/
+!dashboard/data_for_app/**
+
 # Jupyter
 .ipynb_checkpoints/
 
@@ -40,3 +44,7 @@ Thumbs.db
 # Logs
 *.log
 logs/
+
+# Claude Code local state
+.claude/scheduled_tasks.lock
+.claude/worktrees/

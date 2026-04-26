@@ -1,0 +1,209 @@
+{
+  "strata": {
+    "FULL": {
+      "label": "FULL",
+      "n_events": 770,
+      "n_months": 124,
+      "sharpe_annual": 0.6772539532123213,
+      "alpha_monthly": 0.00546986629488602,
+      "alpha_annual": 0.06563839553863224,
+      "t_alpha": 2.2479437123316828,
+      "p_alpha": 0.024579779355431187
+    },
+    "sector=Industrials": {
+      "label": "sector=Industrials",
+      "n_events": 223,
+      "n_months": 66,
+      "sharpe_annual": -0.2932020940539123,
+      "alpha_monthly": -0.003992531020696399,
+      "alpha_annual": -0.047910372248356786,
+      "t_alpha": -0.5044064286206458,
+      "p_alpha": 0.6139758014609953
+    },
+    "sector=Health Care": {
+      "label": "sector=Health Care",
+      "n_events": 51,
+      "n_months": 9,
+      "skipped": true
+    },
+    "sector=Information Technology": {
+      "label": "sector=Information Technology",
+      "n_events": 76,
+      "n_months": 13,
+      "sharpe_annual": 0.07268476792389512,
+      "alpha_monthly": 0.0005278403080179787,
+      "alpha_annual": 0.006334083696215744,
+      "t_alpha": 0.32887498470118975,
+      "p_alpha": 0.7422501828359588
+    },
+    "sector=Materials": {
+      "label": "sector=Materials",
+      "n_events": 80,
+      "n_months": 15,
+      "sharpe_annual": 0.9500621105980459,
+      "alpha_monthly": 0.003489923010175992,
+      "alpha_annual": 0.041879076122111905,
+      "t_alpha": 1.212944500198793,
+      "p_alpha": 0.2251510403668393
+    },
+    "sector=Real Estate": {
+      "label": "sector=Real Estate",
+      "n_events": 25,
+      "n_months": 2,
+      "skipped": true
+    },
+    "sector=Energy": {
+      "label": "sector=Energy",
+      "n_events": 63,
+      "n_months": 13,
+      "sharpe_annual": -0.0947666292329552,
+      "alpha_monthly": -0.01123966531974109,
+      "alpha_annual": -0.1348759838368931,
+      "t_alpha": -1.4223664310744986,
+      "p_alpha": 0.15491990296284755
+    },
+    "sector=Utilities": {
+      "label": "sector=Utilities",
+      "n_events": 15,
+      "n_months": 3,
+      "skipped": true
+    },
+    "sector=Financials": {
+      "label": "sector=Financials",
+      "n_events": 69,
+      "n_months": 15,
+      "sharpe_annual": 0.8443875308651209,
+      "alpha_monthly": 0.00882656590307274,
+      "alpha_annual": 0.10591879083687288,
+      "t_alpha": 0.9944567107615304,
+      "p_alpha": 0.3200005705411687
+    },
+    "sector=Consumer Staples": {
+      "label": "sector=Consumer Staples",
+      "n_events": 63,
+      "n_months": 10,
+      "skipped": true
+    },
+    "sector=Consumer Discretionary": {
+      "label": "sector=Consumer Discretionary",
+      "n_events": 84,
+      "n_months": 17,
+      "sharpe_annual": -0.7599602579122458,
+      "alpha_monthly": -0.010068068467160421,
+      "alpha_annual": -0.12081682160592505,
+      "t_alpha": -4.974801334486138,
+      "p_alpha": 6.531458939820435e-07
+    },
+    "sector=Communication": {
+      "label": "sector=Communication",
+      "n_events": 21,
+      "n_months": 2,
+      "skipped": true
+    },
+    "size_q0": {
+      "label": "size_q0",
+      "n_events": 83,
+      "n_months": 15,
+      "sharpe_annual": -1.5031770660497992,
+      "alpha_monthly": -0.07026336837585265,
+      "alpha_annual": -0.8431604205102318,
+      "t_alpha": -2.0589374497352497,
+      "p_alpha": 0.039500230953326484
+    },
+    "size_q1": {
+      "label": "size_q1",
+      "n_events": 127,
+      "n_months": 32,
+      "sharpe_annual": 1.1050567260060549,
+      "alpha_monthly": 0.021897951503081936,
+      "alpha_annual": 0.26277541803698323,
+      "t_alpha": 3.1479409450459572,
+      "p_alpha": 0.0016442490791013452
+    },
+    "size_q2": {
+      "label": "size_q2",
+      "n_events": 160,
+      "n_months": 42,
+      "sharpe_annual": 0.6293355266025252,
+      "alpha_monthly": 0.007677841158259174,
+      "alpha_annual": 0.09213409389911009,
+      "t_alpha": 1.6089452373125697,
+      "p_alpha": 0.10762831662675927
+    },
+    "size_q3": {
+      "label": "size_q3",
+      "n_events": 208,
+      "n_months": 62,
+      "sharpe_annual": -0.19318952802856174,
+      "alpha_monthly": -0.0032704392030905222,
+      "alpha_annual": -0.03924527043708627,
+      "t_alpha": -0.7763418827963693,
+      "p_alpha": 0.4375471497710065
+    },
+    "size_q4": {
+      "label": "size_q4",
+      "n_events": 188,
+      "n_months": 48,
+      "sharpe_annual": -0.22730681877335102,
+      "alpha_monthly": -0.0019999803778507435,
+      "alpha_annual": -0.02399976453420892,
+      "t_alpha": -0.7411477176157499,
+      "p_alpha": 0.4586038796824168
+    },
+    "liq_q0": {
+      "label": "liq_q0",
+      "n_events": 169,
+      "n_months": 50,
+      "sharpe_annual": 0.0014424065569860014,
+      "alpha_monthly": 0.0010347057887049465,
+      "alpha_annual": 0.01241646946445936,
+      "t_alpha": 0.3406313541119988,
+      "p_alpha": 0.7333811224158351
+    },
+    "liq_q1": {
+      "label": "liq_q1",
+      "n_events": 171,
+      "n_months": 47,
+      "sharpe_annual": 0.5542413189644674,
+      "alpha_monthly": 0.0065240861212242625,
+      "alpha_annual": 0.07828903345469115,
+      "t_alpha": 1.418162127044175,
+      "p_alpha": 0.15614343630502625
+    },
+    "liq_q2": {
+      "label": "liq_q2",
+      "n_events": 177,
+      "n_months": 52,
+      "sharpe_annual": -0.248400577931998,
+      "alpha_monthly": -0.0022875071683893734,
+      "alpha_annual": -0.027450086020672483,
+      "t_alpha": -0.49145706640352405,
+      "p_alpha": 0.6231032109431917
+    },
+    "liq_q3": {
+      "label": "liq_q3",
+      "n_events": 147,
+      "n_months": 43,
+      "sharpe_annual": -1.0256532204384903,
+      "alpha_monthly": -0.00468791728946724,
+      "alpha_annual": -0.05625500747360688,
+      "t_alpha": -1.1964385682699006,
+      "p_alpha": 0.23152545810015823
+    },
+    "liq_q4": {
+      "label": "liq_q4",
+      "n_events": 100,
+      "n_months": 22,
+      "sharpe_annual": 1.2171344792786647,
+      "alpha_monthly": 0.007042326257736598,
+      "alpha_annual": 0.08450791509283918,
+      "t_alpha": 1.5298252517072277,
+      "p_alpha": 0.12605998938299756
+    }
+  },
+  "config": {
+    "ret_col": "bhar_a_2m",
+    "min_n_events": 15,
+    "min_n_months": 12
+  }
+}
