@@ -1,34 +1,172 @@
-# sec-comment-letter-alpha (Project X)
+# SEC Comment Letter Cross-Section Alpha
 
-**Scope**: 10-14 days | **Status**: scaffolding | **Target HF Pod**: Cross-section QR (Millennium, Thurn, Cubist, G-Research QA)
+**Status**: Day 4-11 results committed; sample expansion in flight; targeted Day 14 finish.
 
 ## What this is
 
-Cross-sectional equity alpha from ~30K SEC `UPLOAD` (SEC → 기업) + `CORRESP` (기업 → SEC) correspondence via multi-LLM ensemble feature extraction. Extends SEC disclosure NLP literature; no direct LLM alpha match found on UPLOAD/CORRESP pairs.
+Cross-sectional equity alpha from ~5,000 R3K SEC `UPLOAD` (SEC → company) and `CORRESP` (company → SEC) letter pairs, 2015-2025, via a multi-LLM ensemble (gemma-3-27b + llama-3.3-70b + claude-opus-4.7 oracle). Pre-registered, held-out validated, contamination-audited.
 
-Full execution plan + advance gates + abandon criteria: [`CLAUDE.md`](CLAUDE.md)
+## 5-minute skim
 
-## Install
+1. **Hypothesis**: SEC comment letters reveal firm-level disclosure vulnerabilities; letter content predicts post-letter abnormal returns through (topic × severity × response intent).
+2. **Method**: ensemble extraction → severity-weighted long-short with K=5 matched non-letter R3K controls → FF5+UMD residual α + Newey-West HAC + bootstrap CI + Bailey-López de Prado DSR.
+3. **Headline (Day 6 matched, BHAR 2m)**: see [docs/day4_results.md](docs/day4_results.md) and [docs/day6_matched_control.md](docs/day6_matched_control.md). Honest finding: ~60% of Day 4 IS alpha was sector-residualization artifact; OOS Signal A at t=2.87 is the real claim.
+4. **Robustness**: signal concentrated in size mid-cap quintile (q1-q2). LM 10-K sentiment ablation: alpha unchanged (t 3.04 → 3.05). 20bp/month TC: Sharpe drops to 0.79 from 1.10, alpha still significant (t=2.13).
+5. **Reproducibility**: pre-registration commits `c4cf77b`, `23cabfe`, `0819f75`. 1-command run: `scripts/day4_run_all.py`.
 
-```powershell
-# 1. 선행: portfolio-coordination 세팅 완료
+## Repo structure
+
+```
+src/sec_comment_letter_alpha/
+  data_loader.py    # daemon-mediated SEC cache reader
+  parse.py          # text → structured segments + UPLOAD-CORRESP pairing
+  features.py       # ensemble LLM extraction (v1, v2, v3-corresp prompts)
+  llm.py            # OpenRouter wrapper (single-attempt + own backoff)
+  pipeline.py       # CLI: enqueue / status / dry-run / ensemble
+  stats.py          # FDR, DSR, bootstrap CI helpers
+  universe.py       # R3K parquet loader (PIT-union default)
+
+scripts/
+  bootstrap_universe_r3k.py     # IWV + SEC ticker map → R3K universe
+  fetch_yfinance_returns.py     # monthly returns for R3K tickers
+  fetch_french_factors.py       # FF5 + UMD from Kenneth French
+  fetch_lm_dictionary.py        # Loughran-McDonald master dictionary
+  fetch_quarterly_eps.py        # quarterly EPS (Day 5 PEAD scaffold)
+  day3_extract.py               # UPLOAD ensemble extraction (resumable, parallel)
+  day3_corresp_extract.py       # CORRESP ensemble extraction
+  day3_corresp_v3_extract       # via day3_corresp with --prompt-version v3-corresp
+  day4_build_pairs.py           # UPLOAD-CORRESP join → 12-dim feature pairs
+  day4_build_panel.py           # firm-month panel + per-event BHAR/CAR
+  day4_construct_signal.py      # severity-weighted long-short factor (sector-mean control)
+  day4_orthogonalize.py         # FF5+UMD residual α + NW + bootstrap + DSR
+  day4_run_all.py               # orchestrator
+  day5_lm_sentiment.py          # LM 10-K negative-tone factor
+  day5_ablation_lm.py           # joint regression Signal vs FF5+UMD+LM
+  day5_pead_signal.py           # PEAD scaffold (deferred - free EPS too short)
+  day6_apply_tc.py              # post-cost Sharpe at 5/10/20 bps/month
+  day6_signal_matched.py        # K=5 matched non-letter long control
+  day6_compare.py               # matched vs sector-mean side-by-side
+  day6_pdf_audit.py             # PDF extraction quality heuristics
+  day7_robustness.py            # sector / size / liquidity stratified α
+  day7_fdr.py                   # BH FDR on per-topic stratification
+  contamination_audit.py        # redacted-vs-original κ check
+  bootstrap_universe.py         # legacy SEC-tickers universe (Day 1)
+  build_corresp_v3_split.py     # held-out train/test split for v3-corresp
+
+docs/
+  preregistration_v3_corresp.md   # CORRESP schema lock
+  preregistration_day4_event_study.md   # event-study spec lock
+  preregistration/v3_corresp_results.md # held-out validation outcome
+  day4_results.md                # Day 4 headline (sector-mean control)
+  day6_matched_control.md        # Day 6 matched headline (corrects Day 4)
+  day6_pdf_audit.md              # PDF extraction trustability
+  day7_robustness.md             # size / sector / liquidity strata
+  day7_fdr.md                    # BH FDR null result
+  paper_draft.md                 # Day 11 paper outline (XX placeholders)
+  limitations.md                 # running ledger of 11 known limitations
+  overnight_2026-04-26_summary.md  # mid-overnight scout-readiness checkpoint
+
+dashboard/
+  app.py                         # Streamlit; 6 tabs (overview, heatmap, etc.)
+  README.md                      # run + deploy instructions
+
+tests/
+  test_smoke.py                  # parse + agreement metric tests (17)
+  test_day6_matched.py           # matching logic tests (7)
+  test_day7_fdr.py               # BH FDR tests (4)
+```
+
+28 tests passing.
+
+## Setup
+
+```bash
 cd D:/vscode/sec-comment-letter-alpha
 uv venv
 uv pip install -e .
 uv pip install -e D:/vscode/portfolio-coordination/shared-utils
-copy .env.example .env   # PORTFOLIO_COORD_ROOT 확인
+copy .env.example .env  # confirm PORTFOLIO_COORD_ROOT
 ```
 
-## Day 1 시작
+The SEC daemon (in `D:/vscode/portfolio-coordination/`) populates the cache; this repo never calls SEC directly.
 
-1. `D:/vscode/portfolio-coordination` 에서 `sec-agent-daemon.py` 가 실행 중인지 확인
-2. 이 repo 에서 첫 작업: `src/sec_comment_letter_alpha/pipeline.py` 스캐폴드 + SEC queue 에 Russell 3000 × UPLOAD/CORRESP 요청 등록
-3. 첫 20건 fetch 되는지 `sec-data/edgar-raw/upload-corresp/` 확인
+## Run end-to-end
 
-## 규칙
+```bash
+# 1. Universe + market data
+.venv/Scripts/python.exe scripts/bootstrap_universe_r3k.py
+.venv/Scripts/python.exe scripts/fetch_yfinance_returns.py
+.venv/Scripts/python.exe scripts/fetch_french_factors.py
+.venv/Scripts/python.exe scripts/fetch_lm_dictionary.py
 
-- SEC 직접 호출 금지 — `shared_utils.sec_client` 만 사용
-- OpenRouter 호출 = `OpenRouterClient(project="X")` 패턴
-- 매일 08:00 / 20:00 KST 체크포인트 (`shared_utils.checkpoint.write_checkpoint`)
+# 2. Enqueue daemon for R3K UPLOAD/CORRESP fetch
+.venv/Scripts/python.exe -m sec_comment_letter_alpha.pipeline enqueue --n 1000 --seed 17
+# (wait for daemon to fetch -- monitor with .venv/Scripts/python.exe -m sec_comment_letter_alpha.pipeline status)
 
-자세한 하네스: [`CLAUDE.md`](CLAUDE.md)
+# 3. LLM ensemble extraction (~$3-5 OpenRouter)
+.venv/Scripts/python.exe scripts/day3_extract.py --n 5000 \
+    --output data/day3_features_r3k.jsonl \
+    --universe-filter data/universe_ciks_r3k.parquet \
+    --record-parallelism 4
+
+.venv/Scripts/python.exe scripts/day3_corresp_extract.py --n 5000 \
+    --output data/day3_corresp_v3_full.jsonl \
+    --universe-filter data/universe_ciks_r3k.parquet \
+    --prompt-version v3-corresp \
+    --record-parallelism 4
+
+# 4. Cross-section pipeline (~5 min)
+.venv/Scripts/python.exe scripts/day4_run_all.py
+
+# 5. Day 6 corrections (matched control + TC)
+.venv/Scripts/python.exe scripts/day6_signal_matched.py
+.venv/Scripts/python.exe scripts/day4_orthogonalize.py \
+    --input data/day6_factor_returns_matched.parquet \
+    --output data/day6_alpha_summary_matched.json
+.venv/Scripts/python.exe scripts/day6_apply_tc.py
+
+# 6. Day 7 robustness + FDR
+.venv/Scripts/python.exe scripts/day7_robustness.py
+.venv/Scripts/python.exe scripts/day7_fdr.py
+
+# 7. Day 5 LM ablation
+.venv/Scripts/python.exe scripts/day5_lm_sentiment.py
+.venv/Scripts/python.exe scripts/day5_ablation_lm.py
+
+# 8. Dashboard
+.venv/Scripts/python.exe -m streamlit run dashboard/app.py
+```
+
+## Pre-registration discipline
+
+Three commit-locked pre-registrations:
+
+| Commit | Document | Purpose |
+|---|---|---|
+| `23cabfe` | docs/preregistration_v3_corresp.md | CORRESP schema + held-out split, locked BEFORE v3-corresp extraction |
+| `0819f75` | docs/preregistration/v3_corresp_results.md | Validation outcome (κ_train 0.876, κ_test 0.856, gap 0.021 < 0.10) |
+| `c4cf77b` | docs/preregistration_day4_event_study.md | Day 4 event-study spec (BHAR 2m, FF5+UMD, IS/OOS frozen, 8-cell DSR) |
+
+## Honest acknowledgments
+
+- **Day 4 IS alpha was largely sector-residualization artifact.** Day 6 matched-control correction reveals the signal as primarily an OOS-2022-2024 phenomenon.
+- **Per-topic stratification fails BH FDR at α=0.05** (3 nominal hits / 40 cells, 0 BH-survivors). The headline DSR-corrected alpha is the only valid claim.
+- **Universe survivorship**: PIT-union of 2018 + 2026 IWV holdings; pre-2018 R3K-only firms missing.
+- **Size proxy = adjusted close** (price-based), not market cap; for true cap matching needs WRDS access.
+- **PEAD baseline deferred**: yfinance EPS history insufficient (5 quarters only).
+
+See [docs/limitations.md](docs/limitations.md) for the full ledger.
+
+## Cost / performance budgets
+
+- OpenRouter (project X): ~$XX / cap $45 (final post-expansion).
+- Wall time: ~8 hours overnight from raw daemon-cache to publishable result.
+- All daemon fetches centralized through `D:/vscode/portfolio-coordination/scripts/sec-agent-daemon.py` (per-doc rate-limited at 8 RPS).
+
+## Repo philosophy
+
+Open-source, reproducible, pre-registered. If a finding can be cherry-picked, it isn't reported as a finding. If a measurement can be deflated, it is.
+
+---
+
+Project X of QR Scout Portfolio. See `CLAUDE.md` for the day-by-day execution plan + advance gates + abandon criteria.
