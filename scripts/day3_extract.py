@@ -24,6 +24,7 @@ import json
 import os
 import signal
 import sys
+import threading
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict
@@ -117,6 +118,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--output", type=Path, default=OUTPUT)
     p.add_argument("--universe-filter", type=Path, default=None,
                    help="parquet of CIK column to restrict universe (e.g. data/universe_ciks_r3k.parquet)")
+    p.add_argument("--record-parallelism", type=int, default=4,
+                   help="how many records to process concurrently (each spawns N model threads). "
+                        "Bound above by per-model openrouter cap.")
     args = p.parse_args(argv)
 
     if args.status:
@@ -167,89 +171,83 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     client = OpenRouterClient(project=features.PROJECT_TAG)
-    processed = 0
-    errors_run = 0
+    state = {"processed": 0, "errors": 0, "next_check": 25}
+    state_lock = threading.Lock()
+    write_lock = threading.Lock()
     started = time.time()
-    next_budget_check_at = 25
     models = tuple(args.models)
+    budget_breached = threading.Event()
 
-    with args.output.open("a", encoding="utf-8") as f:
-        for rec in todo:
-            if SHUTDOWN:
-                print("[day3] shutdown requested, breaking loop")
-                break
-
-            segs = parse.split_into_segments(rec)
-            if not segs:
-                f.write(json.dumps({
-                    "cik": rec.cik, "accession": rec.accession,
-                    "skip": "no_segments", "primary": rec.primary, "ext": rec.ext,
-                }) + "\n")
-                f.flush()
-                errors_run += 1
-                continue
-
-            # Per-model parallelism: each model has its own file-lock semaphore,
-            # so threads on different models run concurrently, halving wall time.
-            per_model = {}
-            ensemble_errors = {}
-            with ThreadPoolExecutor(max_workers=len(models)) as pool:
-                futs = {
-                    pool.submit(
-                        features.extract_one, client, segs[0],
-                        model=m, prompt_version=args.prompt_version,
-                    ): m
-                    for m in models
-                }
-                for fut in as_completed(futs):
-                    m = futs[fut]
-                    try:
-                        per_model[m] = fut.result()
-                    except Exception as e:  # noqa: BLE001
-                        ensemble_errors[m] = f"{type(e).__name__}: {e}"
-
-            if not per_model and ensemble_errors:
-                f.write(json.dumps({
-                    "cik": rec.cik, "accession": rec.accession,
-                    "fatal_error": f"all models failed: {ensemble_errors}",
-                }) + "\n")
-                f.flush()
-                errors_run += 1
-                continue
-
-            result = features.EnsembleResult(
-                cik=segs[0].cik, accession=segs[0].accession, date=segs[0].date,
-                per_model=per_model, errors=ensemble_errors,
-            )
-
-            f.write(json.dumps({
-                "cik": result.cik,
-                "accession": result.accession,
-                "date": result.date,
-                "primary": rec.primary,
-                "ext": rec.ext,
-                "per_model": {m: asdict(feat) for m, feat in result.per_model.items()},
-                "errors": result.errors,
-                "prompt_version": args.prompt_version,
-            }, default=str) + "\n")
+    def _write(line: str):
+        with write_lock:
+            f.write(line)
             f.flush()
-            processed += 1
 
-            if processed >= next_budget_check_at:
-                next_budget_check_at += 25
+    def _process_one(rec):
+        if SHUTDOWN or budget_breached.is_set():
+            return
+        segs = parse.split_into_segments(rec)
+        if not segs:
+            _write(json.dumps({
+                "cik": rec.cik, "accession": rec.accession,
+                "skip": "no_segments", "primary": rec.primary, "ext": rec.ext,
+            }) + "\n")
+            with state_lock:
+                state["errors"] += 1
+            return
+        # Inner: gemma + llama in parallel for this record
+        per_model = {}
+        ensemble_errors = {}
+        with ThreadPoolExecutor(max_workers=len(models)) as inner:
+            futs = {
+                inner.submit(
+                    features.extract_one, client, segs[0],
+                    model=m, prompt_version=args.prompt_version,
+                ): m for m in models
+            }
+            for fut in as_completed(futs):
+                m = futs[fut]
+                try:
+                    per_model[m] = fut.result()
+                except Exception as e:  # noqa: BLE001
+                    ensemble_errors[m] = f"{type(e).__name__}: {e}"
+        if not per_model and ensemble_errors:
+            _write(json.dumps({
+                "cik": rec.cik, "accession": rec.accession,
+                "fatal_error": f"all models failed: {ensemble_errors}",
+            }) + "\n")
+            with state_lock:
+                state["errors"] += 1
+            return
+        _write(json.dumps({
+            "cik": segs[0].cik, "accession": segs[0].accession, "date": segs[0].date,
+            "primary": rec.primary, "ext": rec.ext,
+            "per_model": {m: asdict(feat) for m, feat in per_model.items()},
+            "errors": ensemble_errors,
+            "prompt_version": args.prompt_version,
+        }, default=str) + "\n")
+        with state_lock:
+            state["processed"] += 1
+            if state["processed"] >= state["next_check"]:
+                state["next_check"] += 25
                 spend_now = _read_x_spend(coord)
                 elapsed = time.time() - started
-                rate = processed / elapsed if elapsed else 0
-                eta_sec = (len(todo) - processed) / rate if rate else float("inf")
-                print(f"[day3] {processed}/{len(todo)} processed, "
-                      f"errs={errors_run}, spend=${spend_now:.4f} (Δ ${spend_now - spend_start:.4f}), "
-                      f"rate={rate:.2f}/s, ETA={eta_sec/60:.1f}min")
+                rate = state["processed"] / elapsed if elapsed else 0
+                eta_sec = (len(todo) - state["processed"]) / rate if rate else float("inf")
+                print(f"[day3] {state['processed']}/{len(todo)} processed, "
+                      f"errs={state['errors']}, spend=${spend_now:.4f} (+${spend_now - spend_start:.4f}), "
+                      f"rate={rate:.2f}/s, ETA={eta_sec/60:.1f}min", flush=True)
                 if spend_now >= BUDGET_HARD_USD:
-                    print(f"[day3] BUDGET CAP HIT: spend ${spend_now:.4f} >= ${BUDGET_HARD_USD}, exiting.")
-                    break
+                    print(f"[day3] BUDGET CAP HIT: ${spend_now:.4f} >= ${BUDGET_HARD_USD}, stopping.", flush=True)
+                    budget_breached.set()
+
+    print(f"[day3] outer parallelism = {args.record_parallelism} records, inner = {len(models)} models", flush=True)
+    with args.output.open("a", encoding="utf-8") as f:
+        with ThreadPoolExecutor(max_workers=args.record_parallelism) as outer:
+            list(outer.map(_process_one, todo))
 
     spend_end = _read_x_spend(coord)
-    print(f"[day3] exit. processed_this_run={processed} errors_this_run={errors_run} "
+    print(f"[day3] exit. processed_this_run={state['processed']} errors_this_run={state['errors']} "
           f"spend_delta=${spend_end - spend_start:.4f}")
     return 0
 

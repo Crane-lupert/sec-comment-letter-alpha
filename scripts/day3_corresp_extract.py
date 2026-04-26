@@ -25,6 +25,7 @@ import json
 import os
 import signal
 import sys
+import threading
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict
@@ -118,6 +119,8 @@ def main(argv: list[str] | None = None) -> int:
                    help="parquet of CIK column to restrict universe")
     p.add_argument("--keys-filter", type=Path, default=None,
                    help="JSON list of [cik, accession] pairs to restrict to (held-out split)")
+    p.add_argument("--record-parallelism", type=int, default=4,
+                   help="how many records to process concurrently")
     args = p.parse_args(argv)
 
     if args.status:
@@ -167,72 +170,82 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     client = OpenRouterClient(project=features.PROJECT_TAG)
-    processed = errors_run = 0
+    state = {"processed": 0, "errors": 0, "next_check": 25}
+    state_lock = threading.Lock()
+    write_lock = threading.Lock()
     started = time.time()
-    next_check = 25
     models = tuple(args.models)
+    budget_breached = threading.Event()
 
-    with args.output.open("a", encoding="utf-8") as f:
-        for rec in todo:
-            if SHUTDOWN:
-                break
-            segs = parse.split_into_segments(rec)
-            if not segs:
-                f.write(json.dumps({
-                    "cik": rec.cik, "accession": rec.accession, "form": TARGET_FORM,
-                    "skip": "no_segments", "primary": rec.primary, "ext": rec.ext,
-                }) + "\n"); f.flush()
-                errors_run += 1
-                continue
+    def _write(line: str):
+        with write_lock:
+            f.write(line)
+            f.flush()
 
-            per_model = {}
-            ensemble_errors = {}
-            with ThreadPoolExecutor(max_workers=len(models)) as pool:
-                futs = {
-                    pool.submit(
-                        features.extract_one, client, segs[0],
-                        model=m, prompt_version=args.prompt_version,
-                    ): m for m in models
-                }
-                for fut in as_completed(futs):
-                    m = futs[fut]
-                    try:
-                        per_model[m] = fut.result()
-                    except Exception as e:  # noqa: BLE001
-                        ensemble_errors[m] = f"{type(e).__name__}: {e}"
-
-            if not per_model and ensemble_errors:
-                f.write(json.dumps({
-                    "cik": rec.cik, "accession": rec.accession, "form": TARGET_FORM,
-                    "fatal_error": f"all models failed: {ensemble_errors}",
-                }) + "\n"); f.flush()
-                errors_run += 1
-                continue
-
-            f.write(json.dumps({
-                "cik": rec.cik, "accession": rec.accession, "date": rec.date,
-                "form": TARGET_FORM, "primary": rec.primary, "ext": rec.ext,
-                "per_model": {m: asdict(feat) for m, feat in per_model.items()},
-                "errors": ensemble_errors,
-                "prompt_version": args.prompt_version,
-            }, default=str) + "\n"); f.flush()
-            processed += 1
-
-            if processed >= next_check:
-                next_check += 25
+    def _process_one(rec):
+        if SHUTDOWN or budget_breached.is_set():
+            return
+        segs = parse.split_into_segments(rec)
+        if not segs:
+            _write(json.dumps({
+                "cik": rec.cik, "accession": rec.accession, "form": TARGET_FORM,
+                "skip": "no_segments", "primary": rec.primary, "ext": rec.ext,
+            }) + "\n")
+            with state_lock:
+                state["errors"] += 1
+            return
+        per_model = {}
+        ensemble_errors = {}
+        with ThreadPoolExecutor(max_workers=len(models)) as inner:
+            futs = {
+                inner.submit(
+                    features.extract_one, client, segs[0],
+                    model=m, prompt_version=args.prompt_version,
+                ): m for m in models
+            }
+            for fut in as_completed(futs):
+                m = futs[fut]
+                try:
+                    per_model[m] = fut.result()
+                except Exception as e:  # noqa: BLE001
+                    ensemble_errors[m] = f"{type(e).__name__}: {e}"
+        if not per_model and ensemble_errors:
+            _write(json.dumps({
+                "cik": rec.cik, "accession": rec.accession, "form": TARGET_FORM,
+                "fatal_error": f"all models failed: {ensemble_errors}",
+            }) + "\n")
+            with state_lock:
+                state["errors"] += 1
+            return
+        _write(json.dumps({
+            "cik": rec.cik, "accession": rec.accession, "date": rec.date,
+            "form": TARGET_FORM, "primary": rec.primary, "ext": rec.ext,
+            "per_model": {m: asdict(feat) for m, feat in per_model.items()},
+            "errors": ensemble_errors,
+            "prompt_version": args.prompt_version,
+        }, default=str) + "\n")
+        with state_lock:
+            state["processed"] += 1
+            if state["processed"] >= state["next_check"]:
+                state["next_check"] += 25
                 spend_now = _read_x_spend(coord)
                 elapsed = time.time() - started
-                rate = processed / elapsed if elapsed else 0
-                eta = (len(todo) - processed) / rate if rate else float("inf")
-                print(f"[day3-corresp] {processed}/{len(todo)}, errs={errors_run}, "
+                rate = state["processed"] / elapsed if elapsed else 0
+                eta = (len(todo) - state["processed"]) / rate if rate else float("inf")
+                print(f"[day3-corresp] {state['processed']}/{len(todo)}, errs={state['errors']}, "
                       f"spend=${spend_now:.4f} (+${spend_now - spend_start:.4f}), "
-                      f"rate={rate:.2f}/s, ETA={eta/60:.1f}min")
+                      f"rate={rate:.2f}/s, ETA={eta/60:.1f}min", flush=True)
                 if spend_now >= BUDGET_HARD_USD:
-                    print(f"[day3-corresp] BUDGET CAP HIT at ${spend_now:.4f}, exiting.")
-                    break
+                    print(f"[day3-corresp] BUDGET CAP HIT at ${spend_now:.4f}, stopping.", flush=True)
+                    budget_breached.set()
+
+    print(f"[day3-corresp] outer parallelism = {args.record_parallelism} records, inner = {len(models)} models", flush=True)
+    with args.output.open("a", encoding="utf-8") as f:
+        with ThreadPoolExecutor(max_workers=args.record_parallelism) as outer:
+            list(outer.map(_process_one, todo))
 
     spend_end = _read_x_spend(coord)
-    print(f"[day3-corresp] exit. processed_this_run={processed} errors_this_run={errors_run} "
+    print(f"[day3-corresp] exit. processed_this_run={state['processed']} errors_this_run={state['errors']} "
           f"spend_delta=${spend_end - spend_start:.4f}")
     return 0
 
