@@ -64,6 +64,27 @@ multi-column layouts, and footnotes.
 **Pending mitigation**: 30-record manual eyeball compare between extracted
 text and SEC EDGAR PDF view. Day 6-7 rigor pass.
 
+## 4a. PEAD baseline NOT reproducible from free data — deferred
+
+**Issue**: Foster-Olsen-Shevlin (1984) naive PEAD surprise requires 8+
+quarters of EPS history per firm to compute the standardized unexpected
+earnings (SUE). yfinance's `Ticker.quarterly_income_stmt` returns only
+~5 recent quarters (median per ticker = 5; max ~7). Earnings history
+spanning 2015-2024 is unavailable.
+
+For full PEAD baseline reproduction we would need:
+- IBES (paid, via WRDS) for analyst-forecast-based surprise, OR
+- Compustat (paid) for full quarterly EPS history, OR
+- 8-K announcement parsing from SEC EDGAR (heavy text engineering, several
+  weeks of work).
+
+**Decision**: PEAD baseline is deferred. Day 5 scope is reduced to FF5+UMD
+(done in Day 4) + LM 10-K sentiment. Paper writeup will note PEAD as
+"comparable factor, not directly orthogonalized due to free-data history
+limitation." Scaffolds (`scripts/fetch_quarterly_eps.py`,
+`scripts/day5_pead_signal.py`) are committed for when paid data access
+becomes available.
+
 ## 4. yfinance return data quality — fallback for CRSP
 
 **Issue**: yfinance is the academic-equivalent free substitute for CRSP.
