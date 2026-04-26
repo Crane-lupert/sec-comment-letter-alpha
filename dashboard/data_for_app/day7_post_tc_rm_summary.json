@@ -1,0 +1,1283 @@
+{
+  "baseline": "Day 7 risk-managed (N=4) overlay",
+  "input_parquet": "D:/vscode/sec-comment-letter-alpha/data/day7_risk_managed_factor_returns.parquet",
+  "signals": {
+    "A_bhar_1m_matched_rm": {
+      "FULL_raw": {
+        "n_months": 127,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.007246273157967344,
+        "sharpe_annual_post_tc": 0.7243255178382839,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.007458020808613837,
+          "alpha_annual": 0.08949624970336603,
+          "se_monthly": 0.0029424992548458566,
+          "t_alpha": 2.5345871528536805,
+          "p_alpha": 0.011257991873864684
+        }
+      },
+      "IS_2015_2021_raw": {
+        "n_months": 81,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.0036797596221361524,
+        "sharpe_annual_post_tc": 0.34523741459713275,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.0061487049425046035,
+          "alpha_annual": 0.07378445931005524,
+          "se_monthly": 0.004241579296465298,
+          "t_alpha": 1.449626309622126,
+          "p_alpha": 0.14716275517662633
+        }
+      },
+      "OOS_2022_2024_raw": {
+        "n_months": 36,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.01226373339151163,
+        "sharpe_annual_post_tc": 1.5119517130037765,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.009075001373538439,
+          "alpha_annual": 0.10890001648246127,
+          "se_monthly": 0.0042606034349524915,
+          "t_alpha": 2.1299802978822955,
+          "p_alpha": 0.033173239989675196
+        }
+      },
+      "FULL_optimistic_5bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.006746273157967347,
+        "sharpe_annual_post_tc": 0.6743463421952931,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.006958020808613836,
+          "alpha_annual": 0.08349624970336603,
+          "se_monthly": 0.0029424992548458566,
+          "t_alpha": 2.364663575412981,
+          "p_alpha": 0.01804645595895548
+        }
+      },
+      "IS_2015_2021_optimistic_5bp": {
+        "n_months": 81,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.003179759622136152,
+        "sharpe_annual_post_tc": 0.2983270929934735,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.0056487049425046005,
+          "alpha_annual": 0.06778445931005521,
+          "se_monthly": 0.004241579296465298,
+          "t_alpha": 1.331745688972955,
+          "p_alpha": 0.182943770170221
+        }
+      },
+      "OOS_2022_2024_optimistic_5bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.011763733391511629,
+        "sharpe_annual_post_tc": 1.4503085059665834,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.008575001373538439,
+          "alpha_annual": 0.10290001648246126,
+          "se_monthly": 0.0042606034349524915,
+          "t_alpha": 2.0126260292596454,
+          "p_alpha": 0.04415398652184643
+        }
+      },
+      "FULL_reasonable_10bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.006246273157967344,
+        "sharpe_annual_post_tc": 0.6243671665523016,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.006458020808613837,
+          "alpha_annual": 0.07749624970336605,
+          "se_monthly": 0.0029424992548458566,
+          "t_alpha": 2.1947399979722824,
+          "p_alpha": 0.02818225379971222
+        }
+      },
+      "IS_2015_2021_reasonable_10bp": {
+        "n_months": 81,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.0026797596221361515,
+        "sharpe_annual_post_tc": 0.2514167713898143,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.005148704942504601,
+          "alpha_annual": 0.06178445931005521,
+          "se_monthly": 0.004241579296465299,
+          "t_alpha": 1.2138650683237846,
+          "p_alpha": 0.22479925399773015
+        }
+      },
+      "OOS_2022_2024_reasonable_10bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.011263733391511628,
+        "sharpe_annual_post_tc": 1.3886652989293904,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.008075001373538438,
+          "alpha_annual": 0.09690001648246126,
+          "se_monthly": 0.0042606034349524915,
+          "t_alpha": 1.8952717606369953,
+          "p_alpha": 0.05805640738039969
+        }
+      },
+      "FULL_conservative_20bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.005246273157967343,
+        "sharpe_annual_post_tc": 0.5244088152663192,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.005458020808613837,
+          "alpha_annual": 0.06549624970336605,
+          "se_monthly": 0.0029424992548458566,
+          "t_alpha": 1.8548928430908835,
+          "p_alpha": 0.06361153020232245
+        }
+      },
+      "IS_2015_2021_conservative_20bp": {
+        "n_months": 81,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.0016797596221361515,
+        "sharpe_annual_post_tc": 0.15759612818249585,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.0041487049425046,
+          "alpha_annual": 0.0497844593100552,
+          "se_monthly": 0.0042415792964653,
+          "t_alpha": 0.978103827025444,
+          "p_alpha": 0.32802297525306456
+        }
+      },
+      "OOS_2022_2024_conservative_20bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.010263733391511628,
+        "sharpe_annual_post_tc": 1.2653788848550043,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.007075001373538436,
+          "alpha_annual": 0.08490001648246123,
+          "se_monthly": 0.004260603434952491,
+          "t_alpha": 1.6605632233916952,
+          "p_alpha": 0.09680120029915144
+        }
+      },
+      "break_even_tc_bps": 72.46273157967345
+    },
+    "A_bhar_2m_matched_rm": {
+      "FULL_raw": {
+        "n_months": 127,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.012564582570543766,
+        "sharpe_annual_post_tc": 1.0890446636108881,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.012069329110285704,
+          "alpha_annual": 0.14483194932342847,
+          "se_monthly": 0.0029680052594379673,
+          "t_alpha": 4.066478343293501,
+          "p_alpha": 4.7728918409456796e-05
+        }
+      },
+      "IS_2015_2021_raw": {
+        "n_months": 81,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.010024286348392367,
+        "sharpe_annual_post_tc": 0.8398072633598881,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.010408009097354738,
+          "alpha_annual": 0.12489610916825686,
+          "se_monthly": 0.0035521039596013637,
+          "t_alpha": 2.930096983569924,
+          "p_alpha": 0.0033885622735983214
+        }
+      },
+      "OOS_2022_2024_raw": {
+        "n_months": 36,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.017445988266078558,
+        "sharpe_annual_post_tc": 1.5901162071632233,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.017330219034421494,
+          "alpha_annual": 0.20796262841305793,
+          "se_monthly": 0.005629760865033721,
+          "t_alpha": 3.0783224101149615,
+          "p_alpha": 0.002081695627587844
+        }
+      },
+      "FULL_optimistic_5bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.012064582570543768,
+        "sharpe_annual_post_tc": 1.0457067867854366,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.011569329110285704,
+          "alpha_annual": 0.13883194932342846,
+          "se_monthly": 0.0029680052594379678,
+          "t_alpha": 3.8980150299587115,
+          "p_alpha": 9.698439834738952e-05
+        }
+      },
+      "IS_2015_2021_optimistic_5bp": {
+        "n_months": 81,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.009524286348392369,
+        "sharpe_annual_post_tc": 0.7979186323804583,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.00990800909735474,
+          "alpha_annual": 0.11889610916825688,
+          "se_monthly": 0.0035521039596013637,
+          "t_alpha": 2.7893353376027514,
+          "p_alpha": 0.005281634644237057
+        }
+      },
+      "OOS_2022_2024_optimistic_5bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.016945988266078557,
+        "sharpe_annual_post_tc": 1.544543661116778,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.016830219034421494,
+          "alpha_annual": 0.20196262841305793,
+          "se_monthly": 0.005629760865033721,
+          "t_alpha": 2.989508691026912,
+          "p_alpha": 0.002794264981549713
+        }
+      },
+      "FULL_reasonable_10bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.011564582570543769,
+        "sharpe_annual_post_tc": 1.002368909959985,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.0110693291102857,
+          "alpha_annual": 0.1328319493234284,
+          "se_monthly": 0.0029680052594379673,
+          "t_alpha": 3.729551716623922,
+          "p_alpha": 0.00019182073410354243
+        }
+      },
+      "IS_2015_2021_reasonable_10bp": {
+        "n_months": 81,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.009024286348392366,
+        "sharpe_annual_post_tc": 0.7560300014010284,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.009408009097354739,
+          "alpha_annual": 0.11289610916825688,
+          "se_monthly": 0.0035521039596013637,
+          "t_alpha": 2.6485736916355784,
+          "p_alpha": 0.008083222439750418
+        }
+      },
+      "OOS_2022_2024_reasonable_10bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.016445988266078557,
+        "sharpe_annual_post_tc": 1.4989711150703324,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.016330219034421493,
+          "alpha_annual": 0.19596262841305792,
+          "se_monthly": 0.00562976086503372,
+          "t_alpha": 2.9006949719388624,
+          "p_alpha": 0.0037233612473113274
+        }
+      },
+      "FULL_conservative_20bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.010564582570543764,
+        "sharpe_annual_post_tc": 0.9156931563090811,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.010069329110285703,
+          "alpha_annual": 0.12083194932342843,
+          "se_monthly": 0.0029680052594379678,
+          "t_alpha": 3.392625089954344,
+          "p_alpha": 0.0006922631575002776
+        }
+      },
+      "IS_2015_2021_conservative_20bp": {
+        "n_months": 81,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.008024286348392366,
+        "sharpe_annual_post_tc": 0.6722527394421686,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.00840800909735474,
+          "alpha_annual": 0.10089610916825688,
+          "se_monthly": 0.0035521039596013637,
+          "t_alpha": 2.367050399701233,
+          "p_alpha": 0.017930490879396146
+        }
+      },
+      "OOS_2022_2024_conservative_20bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.015445988266078554,
+        "sharpe_annual_post_tc": 1.4078260229774413,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.015330219034421494,
+          "alpha_annual": 0.18396262841305794,
+          "se_monthly": 0.005629760865033721,
+          "t_alpha": 2.7230675337627632,
+          "p_alpha": 0.006467883477674757
+        }
+      },
+      "break_even_tc_bps": 125.64582570543766
+    },
+    "A_bhar_3m_matched_rm": {
+      "FULL_raw": {
+        "n_months": 127,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.014412524001984874,
+        "sharpe_annual_post_tc": 1.2467396210588482,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.01384132715840537,
+          "alpha_annual": 0.16609592590086442,
+          "se_monthly": 0.0031370273097561913,
+          "t_alpha": 4.412243117985834,
+          "p_alpha": 1.0230514166005035e-05
+        }
+      },
+      "IS_2015_2021_raw": {
+        "n_months": 81,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.011751210093728513,
+        "sharpe_annual_post_tc": 1.0154507007084381,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.011700527098426488,
+          "alpha_annual": 0.14040632518111784,
+          "se_monthly": 0.0033403965096977933,
+          "t_alpha": 3.5027359968966794,
+          "p_alpha": 0.00046050564106620093
+        }
+      },
+      "OOS_2022_2024_raw": {
+        "n_months": 36,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.018943624189682554,
+        "sharpe_annual_post_tc": 1.8091335182358617,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.018529770225446933,
+          "alpha_annual": 0.2223572427053632,
+          "se_monthly": 0.005630396326888918,
+          "t_alpha": 3.2910241392697093,
+          "p_alpha": 0.0009982334695346731
+        }
+      },
+      "FULL_optimistic_5bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.013912524001984875,
+        "sharpe_annual_post_tc": 1.2034876680738211,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.013341327158405367,
+          "alpha_annual": 0.1600959259008644,
+          "se_monthly": 0.0031370273097561913,
+          "t_alpha": 4.252856555285217,
+          "p_alpha": 2.1106078257513243e-05
+        }
+      },
+      "IS_2015_2021_optimistic_5bp": {
+        "n_months": 81,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.01125121009372851,
+        "sharpe_annual_post_tc": 0.9722444822590558,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.01120052709842649,
+          "alpha_annual": 0.13440632518111786,
+          "se_monthly": 0.0033403965096977933,
+          "t_alpha": 3.3530531677629503,
+          "p_alpha": 0.0007992535162662761
+        }
+      },
+      "OOS_2022_2024_optimistic_5bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.01844362418968256,
+        "sharpe_annual_post_tc": 1.7613830587640897,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.018029770225446936,
+          "alpha_annual": 0.21635724270536322,
+          "se_monthly": 0.00563039632688892,
+          "t_alpha": 3.2022204439397433,
+          "p_alpha": 0.0013637259413658079
+        }
+      },
+      "FULL_reasonable_10bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.013412524001984876,
+        "sharpe_annual_post_tc": 1.1602357150887943,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.012841327158405367,
+          "alpha_annual": 0.1540959259008644,
+          "se_monthly": 0.003137027309756191,
+          "t_alpha": 4.093469992584601,
+          "p_alpha": 4.2496509588992844e-05
+        }
+      },
+      "IS_2015_2021_reasonable_10bp": {
+        "n_months": 81,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.01075121009372851,
+        "sharpe_annual_post_tc": 0.9290382638096736,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.010700527098426489,
+          "alpha_annual": 0.12840632518111786,
+          "se_monthly": 0.0033403965096977933,
+          "t_alpha": 3.203370338629221,
+          "p_alpha": 0.0013582918863191801
+        }
+      },
+      "OOS_2022_2024_reasonable_10bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.017943624189682553,
+        "sharpe_annual_post_tc": 1.713632599292316,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.017529770225446935,
+          "alpha_annual": 0.2103572427053632,
+          "se_monthly": 0.005630396326888918,
+          "t_alpha": 3.1134167486097786,
+          "p_alpha": 0.0018493467600961904
+        }
+      },
+      "FULL_conservative_20bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.012412524001984872,
+        "sharpe_annual_post_tc": 1.0737318091187398,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.011841327158405367,
+          "alpha_annual": 0.1420959259008644,
+          "se_monthly": 0.0031370273097561913,
+          "t_alpha": 3.774696867183369,
+          "p_alpha": 0.00016020235080131898
+        }
+      },
+      "IS_2015_2021_conservative_20bp": {
+        "n_months": 81,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.009751210093728513,
+        "sharpe_annual_post_tc": 0.8426258269109094,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.009700527098426488,
+          "alpha_annual": 0.11640632518111785,
+          "se_monthly": 0.0033403965096977933,
+          "t_alpha": 2.9040046803617625,
+          "p_alpha": 0.0036842265233501493
+        }
+      },
+      "OOS_2022_2024_conservative_20bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.016943624189682552,
+        "sharpe_annual_post_tc": 1.6181316803487706,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.016529770225446935,
+          "alpha_annual": 0.1983572427053632,
+          "se_monthly": 0.00563039632688892,
+          "t_alpha": 2.9358093579498465,
+          "p_alpha": 0.003326787080531891
+        }
+      },
+      "break_even_tc_bps": 144.12524001984875
+    },
+    "A_car_2m_matched_rm": {
+      "FULL_raw": {
+        "n_months": 127,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.012564582570543766,
+        "sharpe_annual_post_tc": 1.0890446636108884,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.012069329110285704,
+          "alpha_annual": 0.14483194932342847,
+          "se_monthly": 0.0029680052594379673,
+          "t_alpha": 4.066478343293501,
+          "p_alpha": 4.7728918409456796e-05
+        }
+      },
+      "IS_2015_2021_raw": {
+        "n_months": 81,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.010024286348392367,
+        "sharpe_annual_post_tc": 0.8398072633598881,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.010408009097354738,
+          "alpha_annual": 0.12489610916825686,
+          "se_monthly": 0.0035521039596013637,
+          "t_alpha": 2.930096983569924,
+          "p_alpha": 0.0033885622735983214
+        }
+      },
+      "OOS_2022_2024_raw": {
+        "n_months": 36,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.017445988266078558,
+        "sharpe_annual_post_tc": 1.5901162071632233,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.017330219034421498,
+          "alpha_annual": 0.20796262841305796,
+          "se_monthly": 0.005629760865033722,
+          "t_alpha": 3.0783224101149615,
+          "p_alpha": 0.002081695627587844
+        }
+      },
+      "FULL_optimistic_5bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.012064582570543766,
+        "sharpe_annual_post_tc": 1.0457067867854366,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.011569329110285704,
+          "alpha_annual": 0.13883194932342846,
+          "se_monthly": 0.002968005259437967,
+          "t_alpha": 3.898015029958713,
+          "p_alpha": 9.698439834738906e-05
+        }
+      },
+      "IS_2015_2021_optimistic_5bp": {
+        "n_months": 81,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.009524286348392369,
+        "sharpe_annual_post_tc": 0.7979186323804583,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.00990800909735474,
+          "alpha_annual": 0.11889610916825688,
+          "se_monthly": 0.0035521039596013637,
+          "t_alpha": 2.7893353376027514,
+          "p_alpha": 0.005281634644237057
+        }
+      },
+      "OOS_2022_2024_optimistic_5bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.016945988266078557,
+        "sharpe_annual_post_tc": 1.544543661116778,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.016830219034421494,
+          "alpha_annual": 0.20196262841305793,
+          "se_monthly": 0.005629760865033719,
+          "t_alpha": 2.989508691026913,
+          "p_alpha": 0.002794264981549707
+        }
+      },
+      "FULL_reasonable_10bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.011564582570543769,
+        "sharpe_annual_post_tc": 1.002368909959985,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.0110693291102857,
+          "alpha_annual": 0.1328319493234284,
+          "se_monthly": 0.0029680052594379673,
+          "t_alpha": 3.729551716623922,
+          "p_alpha": 0.00019182073410354243
+        }
+      },
+      "IS_2015_2021_reasonable_10bp": {
+        "n_months": 81,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.009024286348392366,
+        "sharpe_annual_post_tc": 0.7560300014010284,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.009408009097354739,
+          "alpha_annual": 0.11289610916825688,
+          "se_monthly": 0.003552103959601363,
+          "t_alpha": 2.648573691635579,
+          "p_alpha": 0.008083222439750412
+        }
+      },
+      "OOS_2022_2024_reasonable_10bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.016445988266078557,
+        "sharpe_annual_post_tc": 1.4989711150703324,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.016330219034421497,
+          "alpha_annual": 0.19596262841305795,
+          "se_monthly": 0.005629760865033721,
+          "t_alpha": 2.900694971938863,
+          "p_alpha": 0.003723361247311319
+        }
+      },
+      "FULL_conservative_20bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.010564582570543766,
+        "sharpe_annual_post_tc": 0.9156931563090812,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.010069329110285703,
+          "alpha_annual": 0.12083194932342843,
+          "se_monthly": 0.0029680052594379665,
+          "t_alpha": 3.392625089954346,
+          "p_alpha": 0.0006922631575002724
+        }
+      },
+      "IS_2015_2021_conservative_20bp": {
+        "n_months": 81,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.008024286348392366,
+        "sharpe_annual_post_tc": 0.6722527394421686,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.008408009097354738,
+          "alpha_annual": 0.10089610916825686,
+          "se_monthly": 0.0035521039596013624,
+          "t_alpha": 2.3670503997012333,
+          "p_alpha": 0.01793049087939612
+        }
+      },
+      "OOS_2022_2024_conservative_20bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.015445988266078558,
+        "sharpe_annual_post_tc": 1.4078260229774417,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.015330219034421498,
+          "alpha_annual": 0.18396262841305797,
+          "se_monthly": 0.005629760865033721,
+          "t_alpha": 2.7230675337627637,
+          "p_alpha": 0.006467883477674746
+        }
+      },
+      "break_even_tc_bps": 125.64582570543766
+    },
+    "B_bhar_1m_matched_rm": {
+      "FULL_raw": {
+        "n_months": 127,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.006666373787846689,
+        "sharpe_annual_post_tc": 0.5739483719008532,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.007365029861445481,
+          "alpha_annual": 0.08838035833734578,
+          "se_monthly": 0.003996806750307781,
+          "t_alpha": 1.8427285384459293,
+          "p_alpha": 0.0653686550868639
+        }
+      },
+      "IS_2015_2021_raw": {
+        "n_months": 82,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.007198717834041667,
+        "sharpe_annual_post_tc": 0.5925216313510497,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.010138573426122463,
+          "alpha_annual": 0.12166288111346957,
+          "se_monthly": 0.005393092541522554,
+          "t_alpha": 1.879918311815244,
+          "p_alpha": 0.06011921182573833
+        }
+      },
+      "OOS_2022_2024_raw": {
+        "n_months": 36,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.0038330608936846494,
+        "sharpe_annual_post_tc": 0.3652909242205334,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.0006508869067855219,
+          "alpha_annual": 0.007810642881426263,
+          "se_monthly": 0.0061973695997537765,
+          "t_alpha": 0.10502631742528022,
+          "p_alpha": 0.9163549259166249
+        }
+      },
+      "FULL_optimistic_5bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.006166373787846689,
+        "sharpe_annual_post_tc": 0.5309003528303351,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.00686502986144548,
+          "alpha_annual": 0.08238035833734576,
+          "se_monthly": 0.003996806750307781,
+          "t_alpha": 1.71762866966656,
+          "p_alpha": 0.0858643675256168
+        }
+      },
+      "IS_2015_2021_optimistic_5bp": {
+        "n_months": 82,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.006698717834041668,
+        "sharpe_annual_post_tc": 0.5513669670753434,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.009638573426122465,
+          "alpha_annual": 0.11566288111346958,
+          "se_monthly": 0.005393092541522553,
+          "t_alpha": 1.787207126878143,
+          "p_alpha": 0.07390401786360255
+        }
+      },
+      "OOS_2022_2024_optimistic_5bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.003333060893684649,
+        "sharpe_annual_post_tc": 0.317640895385564,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.00015088690678552127,
+          "alpha_annual": 0.0018106428814262552,
+          "se_monthly": 0.006197369599753775,
+          "t_alpha": 0.0243469272498313,
+          "p_alpha": 0.9805758816783746
+        }
+      },
+      "FULL_reasonable_10bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.0056663737878466895,
+        "sharpe_annual_post_tc": 0.487852333759817,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.00636502986144548,
+          "alpha_annual": 0.07638035833734577,
+          "se_monthly": 0.003996806750307781,
+          "t_alpha": 1.592528800887191,
+          "p_alpha": 0.1112659370673853
+        }
+      },
+      "IS_2015_2021_reasonable_10bp": {
+        "n_months": 82,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.006198717834041666,
+        "sharpe_annual_post_tc": 0.5102123027996369,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.009138573426122464,
+          "alpha_annual": 0.10966288111346957,
+          "se_monthly": 0.005393092541522554,
+          "t_alpha": 1.6944959419410413,
+          "p_alpha": 0.0901710821733666
+        }
+      },
+      "OOS_2022_2024_reasonable_10bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.002833060893684648,
+        "sharpe_annual_post_tc": 0.2699908665505947,
+        "alpha_post_tc": {
+          "alpha_monthly": -0.0003491130932144785,
+          "alpha_annual": -0.004189357118573742,
+          "se_monthly": 0.0061973695997537765,
+          "t_alpha": -0.05633246292561749,
+          "p_alpha": 0.9550769582105536
+        }
+      },
+      "FULL_conservative_20bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.004666373787846689,
+        "sharpe_annual_post_tc": 0.4017562956187806,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.00536502986144548,
+          "alpha_annual": 0.06438035833734576,
+          "se_monthly": 0.00399680675030778,
+          "t_alpha": 1.342329063328453,
+          "p_alpha": 0.17948932394055217
+        }
+      },
+      "IS_2015_2021_conservative_20bp": {
+        "n_months": 82,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.005198717834041666,
+        "sharpe_annual_post_tc": 0.4279029742482242,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.008138573426122463,
+          "alpha_annual": 0.09766288111346956,
+          "se_monthly": 0.005393092541522553,
+          "t_alpha": 1.5090735720668385,
+          "p_alpha": 0.13127998238520833
+        }
+      },
+      "OOS_2022_2024_conservative_20bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.001833060893684647,
+        "sharpe_annual_post_tc": 0.174690808880656,
+        "alpha_post_tc": {
+          "alpha_monthly": -0.0013491130932144788,
+          "alpha_annual": -0.016189357118573746,
+          "se_monthly": 0.006197369599753777,
+          "t_alpha": -0.21769124327651512,
+          "p_alpha": 0.8276696869210874
+        }
+      },
+      "break_even_tc_bps": 66.66373787846689
+    },
+    "B_bhar_2m_matched_rm": {
+      "FULL_raw": {
+        "n_months": 127,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.00904932234497319,
+        "sharpe_annual_post_tc": 0.659375295384454,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.008609273462138326,
+          "alpha_annual": 0.10331128154565991,
+          "se_monthly": 0.0047295002194326285,
+          "t_alpha": 1.8203347209424874,
+          "p_alpha": 0.06870804691923378
+        }
+      },
+      "IS_2015_2021_raw": {
+        "n_months": 82,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.005500184433432688,
+        "sharpe_annual_post_tc": 0.3757616440669311,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.005853889464839264,
+          "alpha_annual": 0.07024667357807116,
+          "se_monthly": 0.006863867425997991,
+          "t_alpha": 0.8528558466421896,
+          "p_alpha": 0.3937392495589991
+        }
+      },
+      "OOS_2022_2024_raw": {
+        "n_months": 36,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.012904776542142447,
+        "sharpe_annual_post_tc": 1.2230977793160334,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.011612035969078373,
+          "alpha_annual": 0.13934443162894047,
+          "se_monthly": 0.004795771428203803,
+          "t_alpha": 2.4213072167677345,
+          "p_alpha": 0.015464801394251198
+        }
+      },
+      "FULL_optimistic_5bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.00854932234497319,
+        "sharpe_annual_post_tc": 0.6229429930391448,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.008109273462138328,
+          "alpha_annual": 0.09731128154565993,
+          "se_monthly": 0.004729500219432628,
+          "t_alpha": 1.7146153051899324,
+          "p_alpha": 0.08641578078509494
+        }
+      },
+      "IS_2015_2021_optimistic_5bp": {
+        "n_months": 82,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.005000184433432688,
+        "sharpe_annual_post_tc": 0.3416026400721853,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.005353889464839264,
+          "alpha_annual": 0.06424667357807116,
+          "se_monthly": 0.0068638674259979895,
+          "t_alpha": 0.7800106168368807,
+          "p_alpha": 0.43538462602035255
+        }
+      },
+      "OOS_2022_2024_optimistic_5bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.012404776542142447,
+        "sharpe_annual_post_tc": 1.17570843571439,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.011112035969078372,
+          "alpha_annual": 0.13334443162894047,
+          "se_monthly": 0.004795771428203804,
+          "t_alpha": 2.3170487033074147,
+          "p_alpha": 0.02050107886345885
+        }
+      },
+      "FULL_reasonable_10bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.00804932234497319,
+        "sharpe_annual_post_tc": 0.5865106906938354,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.007609273462138325,
+          "alpha_annual": 0.0913112815456599,
+          "se_monthly": 0.0047295002194326285,
+          "t_alpha": 1.6088958894373762,
+          "p_alpha": 0.10763910847079529
+        }
+      },
+      "IS_2015_2021_reasonable_10bp": {
+        "n_months": 82,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.004500184433432687,
+        "sharpe_annual_post_tc": 0.3074436360774396,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.004853889464839263,
+          "alpha_annual": 0.05824667357807115,
+          "se_monthly": 0.006863867425997991,
+          "t_alpha": 0.7071653870315711,
+          "p_alpha": 0.4794637056726069
+        }
+      },
+      "OOS_2022_2024_reasonable_10bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.011904776542142446,
+        "sharpe_annual_post_tc": 1.1283190921127466,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.010612035969078372,
+          "alpha_annual": 0.12734443162894046,
+          "se_monthly": 0.004795771428203806,
+          "t_alpha": 2.212790189847095,
+          "p_alpha": 0.026912113939220498
+        }
+      },
+      "FULL_conservative_20bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.007049322344973191,
+        "sharpe_annual_post_tc": 0.5136460860032168,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.0066092734621383264,
+          "alpha_annual": 0.07931128154565992,
+          "se_monthly": 0.0047295002194326285,
+          "t_alpha": 1.3974570579322658,
+          "p_alpha": 0.16227617130589722
+        }
+      },
+      "IS_2015_2021_conservative_20bp": {
+        "n_months": 82,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.0035001844334326885,
+        "sharpe_annual_post_tc": 0.23912562808794816,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.0038538894648392627,
+          "alpha_annual": 0.04624667357807115,
+          "se_monthly": 0.006863867425997991,
+          "t_alpha": 0.5614749274209526,
+          "p_alpha": 0.5744738178495641
+        }
+      },
+      "OOS_2022_2024_conservative_20bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.010904776542142447,
+        "sharpe_annual_post_tc": 1.0335404049094596,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.009612035969078373,
+          "alpha_annual": 0.11534443162894048,
+          "se_monthly": 0.004795771428203804,
+          "t_alpha": 2.0042731629264576,
+          "p_alpha": 0.04504080703525226
+        }
+      },
+      "break_even_tc_bps": 90.49322344973189
+    },
+    "B_bhar_3m_matched_rm": {
+      "FULL_raw": {
+        "n_months": 127,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.006481342239382853,
+        "sharpe_annual_post_tc": 0.5350229591768841,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.006349216908690737,
+          "alpha_annual": 0.07619060290428883,
+          "se_monthly": 0.0037569576955810632,
+          "t_alpha": 1.6899889280517295,
+          "p_alpha": 0.09103007287711497
+        }
+      },
+      "IS_2015_2021_raw": {
+        "n_months": 82,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.0033564072998479833,
+        "sharpe_annual_post_tc": 0.294084764615997,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.004309888429739255,
+          "alpha_annual": 0.05171866115687106,
+          "se_monthly": 0.003983484686814191,
+          "t_alpha": 1.0819392488203856,
+          "p_alpha": 0.2792795233336186
+        }
+      },
+      "OOS_2022_2024_raw": {
+        "n_months": 36,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.007556822610270085,
+        "sharpe_annual_post_tc": 0.7148444739002553,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.00561858726581817,
+          "alpha_annual": 0.06742304718981804,
+          "se_monthly": 0.005196195666071267,
+          "t_alpha": 1.0812886247731053,
+          "p_alpha": 0.279568745828754
+        }
+      },
+      "FULL_optimistic_5bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.005981342239382853,
+        "sharpe_annual_post_tc": 0.4937488727750041,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.005849216908690736,
+          "alpha_annual": 0.07019060290428883,
+          "se_monthly": 0.003756957695581063,
+          "t_alpha": 1.5569025213061598,
+          "p_alpha": 0.11949363076140483
+        }
+      },
+      "IS_2015_2021_optimistic_5bp": {
+        "n_months": 82,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.002856407299847983,
+        "sharpe_annual_post_tc": 0.25027530730887626,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.003809888429739254,
+          "alpha_annual": 0.04571866115687105,
+          "se_monthly": 0.003983484686814191,
+          "t_alpha": 0.9564210055458324,
+          "p_alpha": 0.3388595764562484
+        }
+      },
+      "OOS_2022_2024_optimistic_5bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.007056822610270084,
+        "sharpe_annual_post_tc": 0.6675465213898478,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.005118587265818169,
+          "alpha_annual": 0.061423047189818024,
+          "se_monthly": 0.005196195666071267,
+          "t_alpha": 0.9850643807045517,
+          "p_alpha": 0.32459244816286936
+        }
+      },
+      "FULL_reasonable_10bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.005481342239382852,
+        "sharpe_annual_post_tc": 0.45247478637312416,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.005349216908690734,
+          "alpha_annual": 0.06419060290428881,
+          "se_monthly": 0.0037569576955810632,
+          "t_alpha": 1.4238161145605892,
+          "p_alpha": 0.1544997096484019
+        }
+      },
+      "IS_2015_2021_reasonable_10bp": {
+        "n_months": 82,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.0023564072998479824,
+        "sharpe_annual_post_tc": 0.2064658500017555,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.003309888429739255,
+          "alpha_annual": 0.03971866115687106,
+          "se_monthly": 0.00398348468681419,
+          "t_alpha": 0.8309027622712799,
+          "p_alpha": 0.40602856307620294
+        }
+      },
+      "OOS_2022_2024_reasonable_10bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.006556822610270082,
+        "sharpe_annual_post_tc": 0.6202485688794402,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.004618587265818169,
+          "alpha_annual": 0.055423047189818025,
+          "se_monthly": 0.005196195666071267,
+          "t_alpha": 0.8888401366359986,
+          "p_alpha": 0.37408900169854875
+        }
+      },
+      "FULL_conservative_20bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.004481342239382853,
+        "sharpe_annual_post_tc": 0.3699266135693643,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.004349216908690737,
+          "alpha_annual": 0.05219060290428884,
+          "se_monthly": 0.0037569576955810624,
+          "t_alpha": 1.1576433010694505,
+          "p_alpha": 0.24700963089900985
+        }
+      },
+      "IS_2015_2021_conservative_20bp": {
+        "n_months": 82,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.0013564072998479833,
+        "sharpe_annual_post_tc": 0.11884693538751419,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.002309888429739254,
+          "alpha_annual": 0.02771866115687105,
+          "se_monthly": 0.003983484686814191,
+          "t_alpha": 0.5798662757221735,
+          "p_alpha": 0.5620047995830384
+        }
+      },
+      "OOS_2022_2024_conservative_20bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.005556822610270084,
+        "sharpe_annual_post_tc": 0.5256526638586254,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.0036185872658181686,
+          "alpha_annual": 0.04342304718981802,
+          "se_monthly": 0.005196195666071267,
+          "t_alpha": 0.6963916484988921,
+          "p_alpha": 0.4861835917690389
+        }
+      },
+      "break_even_tc_bps": 64.81342239382853
+    },
+    "B_car_2m_matched_rm": {
+      "FULL_raw": {
+        "n_months": 127,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.009049322344973187,
+        "sharpe_annual_post_tc": 0.6593752953844538,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.008609273462138323,
+          "alpha_annual": 0.10331128154565988,
+          "se_monthly": 0.004729500219432629,
+          "t_alpha": 1.8203347209424863,
+          "p_alpha": 0.06870804691923402
+        }
+      },
+      "IS_2015_2021_raw": {
+        "n_months": 82,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.00550018443343269,
+        "sharpe_annual_post_tc": 0.37576164406693113,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.0058538894648392644,
+          "alpha_annual": 0.07024667357807117,
+          "se_monthly": 0.006863867425997994,
+          "t_alpha": 0.8528558466421894,
+          "p_alpha": 0.3937392495589992
+        }
+      },
+      "OOS_2022_2024_raw": {
+        "n_months": 36,
+        "tc_bps_per_month": 0.0,
+        "mean_monthly_post_tc": 0.012904776542142445,
+        "sharpe_annual_post_tc": 1.2230977793160334,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.011612035969078371,
+          "alpha_annual": 0.13934443162894045,
+          "se_monthly": 0.004795771428203804,
+          "t_alpha": 2.4213072167677336,
+          "p_alpha": 0.01546480139425124
+        }
+      },
+      "FULL_optimistic_5bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.00854932234497319,
+        "sharpe_annual_post_tc": 0.6229429930391447,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.008109273462138324,
+          "alpha_annual": 0.09731128154565989,
+          "se_monthly": 0.004729500219432628,
+          "t_alpha": 1.7146153051899318,
+          "p_alpha": 0.08641578078509504
+        }
+      },
+      "IS_2015_2021_optimistic_5bp": {
+        "n_months": 82,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.0050001844334326894,
+        "sharpe_annual_post_tc": 0.3416026400721854,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.005353889464839264,
+          "alpha_annual": 0.06424667357807116,
+          "se_monthly": 0.006863867425997993,
+          "t_alpha": 0.7800106168368802,
+          "p_alpha": 0.43538462602035277
+        }
+      },
+      "OOS_2022_2024_optimistic_5bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 5.0,
+        "mean_monthly_post_tc": 0.012404776542142445,
+        "sharpe_annual_post_tc": 1.1757084357143899,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.011112035969078369,
+          "alpha_annual": 0.13334443162894044,
+          "se_monthly": 0.004795771428203806,
+          "t_alpha": 2.3170487033074134,
+          "p_alpha": 0.020501078863458932
+        }
+      },
+      "FULL_reasonable_10bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.00804932234497319,
+        "sharpe_annual_post_tc": 0.5865106906938353,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.007609273462138325,
+          "alpha_annual": 0.0913112815456599,
+          "se_monthly": 0.004729500219432629,
+          "t_alpha": 1.608895889437376,
+          "p_alpha": 0.10763910847079537
+        }
+      },
+      "IS_2015_2021_reasonable_10bp": {
+        "n_months": 82,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.004500184433432689,
+        "sharpe_annual_post_tc": 0.30744363607743963,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.004853889464839263,
+          "alpha_annual": 0.05824667357807115,
+          "se_monthly": 0.006863867425997993,
+          "t_alpha": 0.7071653870315708,
+          "p_alpha": 0.4794637056726069
+        }
+      },
+      "OOS_2022_2024_reasonable_10bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 10.0,
+        "mean_monthly_post_tc": 0.011904776542142444,
+        "sharpe_annual_post_tc": 1.1283190921127464,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.010612035969078372,
+          "alpha_annual": 0.12734443162894046,
+          "se_monthly": 0.004795771428203804,
+          "t_alpha": 2.2127901898470954,
+          "p_alpha": 0.026912113939220453
+        }
+      },
+      "FULL_conservative_20bp": {
+        "n_months": 127,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.007049322344973191,
+        "sharpe_annual_post_tc": 0.5136460860032167,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.006609273462138325,
+          "alpha_annual": 0.07931128154565989,
+          "se_monthly": 0.004729500219432629,
+          "t_alpha": 1.3974570579322652,
+          "p_alpha": 0.16227617130589755
+        }
+      },
+      "IS_2015_2021_conservative_20bp": {
+        "n_months": 82,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.0035001844334326885,
+        "sharpe_annual_post_tc": 0.2391256280879481,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.003853889464839263,
+          "alpha_annual": 0.046246673578071155,
+          "se_monthly": 0.006863867425997992,
+          "t_alpha": 0.5614749274209525,
+          "p_alpha": 0.5744738178495642
+        }
+      },
+      "OOS_2022_2024_conservative_20bp": {
+        "n_months": 36,
+        "tc_bps_per_month": 20.0,
+        "mean_monthly_post_tc": 0.010904776542142445,
+        "sharpe_annual_post_tc": 1.0335404049094594,
+        "alpha_post_tc": {
+          "alpha_monthly": 0.009612035969078371,
+          "alpha_annual": 0.11534443162894045,
+          "se_monthly": 0.004795771428203804,
+          "t_alpha": 2.004273162926457,
+          "p_alpha": 0.04504080703525228
+        }
+      },
+      "break_even_tc_bps": 90.49322344973187
+    }
+  },
+  "tc_levels_bps_per_month": {
+    "optimistic_5bp": 5.0,
+    "reasonable_10bp": 10.0,
+    "conservative_20bp": 20.0
+  }
+}

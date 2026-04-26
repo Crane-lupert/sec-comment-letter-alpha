@@ -45,30 +45,70 @@ def load_pairs() -> pd.DataFrame:
 
 
 @st.cache_data
-def load_factor_returns(matched: bool = False) -> pd.DataFrame:
-    p = DATA / ("day6_factor_returns_matched.parquet" if matched else "day4_factor_returns.parquet")
+def load_factor_returns(matched: bool = False, risk_managed: bool = False) -> pd.DataFrame:
+    if risk_managed:
+        p = DATA / "day7_risk_managed_factor_returns.parquet"
+    elif matched:
+        p = DATA / "day6_factor_returns_matched.parquet"
+    else:
+        p = DATA / "day4_factor_returns.parquet"
     if not p.exists():
         return pd.DataFrame()
     return pd.read_parquet(p)
 
 
 @st.cache_data
-def load_alpha_summary(matched: bool = False) -> dict:
-    p = DATA / ("day6_alpha_summary_matched.json" if matched else "day4_alpha_summary.json")
+def load_alpha_summary(matched: bool = False, risk_managed: bool = False) -> dict:
+    if risk_managed:
+        p = DATA / "day7_risk_managed_summary.json"
+    elif matched:
+        p = DATA / "day6_alpha_summary_matched.json"
+    else:
+        p = DATA / "day4_alpha_summary.json"
     if not p.exists():
         return {}
     return json.loads(p.read_text(encoding="utf-8"))
 
 
 @st.cache_data
-def load_tc_summary() -> dict:
-    p = DATA / "day6_post_tc_summary.json"
+def load_risk_managed_diagnostics() -> dict:
+    p = DATA / "day7_risk_managed_diagnostics.json"
     return json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
 
 
 @st.cache_data
-def load_robust_summary() -> dict:
-    p = DATA / "day7_robustness_summary.json"
+def load_tc_summary(baseline: str = "matched") -> dict:
+    """TC sensitivity summary keyed by baseline.
+
+    'sector_mean' -> data/day6_post_tc_summary.json (Day 4 sector-mean control,
+                     pre-registered TC table)
+    'matched'     -> data/day7_post_tc_matched_summary.json (Day 6 matched,
+                     headline-consistent)
+    'rm'          -> data/day7_post_tc_rm_summary.json (Day 7 risk-managed N=4)
+    """
+    name = {
+        "sector_mean": "day6_post_tc_summary.json",
+        "matched": "day7_post_tc_matched_summary.json",
+        "rm": "day7_post_tc_rm_summary.json",
+    }.get(baseline, "day7_post_tc_matched_summary.json")
+    p = DATA / name
+    return json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
+
+
+@st.cache_data
+def load_robust_summary(baseline: str = "matched") -> dict:
+    """Robustness summary keyed by baseline.
+
+    'sector_mean' -> data/day7_robustness_summary.json (pre-registered, sector-mean)
+    'matched'     -> data/day7_robustness_matched_summary.json (Day 6 matched)
+    'rm'          -> data/day7_robustness_rm_summary.json (Day 7 risk-managed N=4)
+    """
+    name = {
+        "sector_mean": "day7_robustness_summary.json",
+        "matched": "day7_robustness_matched_summary.json",
+        "rm": "day7_robustness_rm_summary.json",
+    }.get(baseline, "day7_robustness_matched_summary.json")
+    p = DATA / name
     return json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
 
 
@@ -85,16 +125,33 @@ st.sidebar.caption("Project X — QR Scout Portfolio")
 st.sidebar.markdown("---")
 use_matched = st.sidebar.toggle("Use Day 6 matched control", value=True,
                                  help="Day 4 used sector-mean of recipients (over-stated). Day 6 uses K=5 matched non-letter R3K firms.")
-view = st.sidebar.radio("View", [
+use_risk_managed = st.sidebar.toggle(
+    "Risk-managed overlay (Day 7)", value=False,
+    help=("Apply A=breadth filter (n_kept>=4), B=per-name 20% cap, C=10% vol-target. "
+          "POST-HOC overlay; pre-registered headline is in matched (Day 6) view. "
+          "Cutoff N=4 chosen post-sweep over {4,5,6,8} — preserves ~78% of OOS alpha."),
+)
+# Risk-managed mode requires matched mode (overlay sits on top of Day 6 panel).
+rm_engaged = bool(use_matched and use_risk_managed)
+if use_risk_managed and not use_matched:
+    st.sidebar.warning("Risk-managed overlay requires the matched-control view. "
+                       "Falling back to matched (Day 6).")
+
+view_options = [
     "Overview", "Topic heatmap", "Severity distribution",
-    "Cumulative returns", "Robustness", "TC sensitivity", "About",
-])
+    "Cumulative returns", "Robustness", "TC sensitivity",
+    "Risk-managed comparison", "About",
+]
+view = st.sidebar.radio("View", view_options)
 
 pairs = load_pairs()
-fac_rets = load_factor_returns(matched=use_matched)
-alpha = load_alpha_summary(matched=use_matched)
-tc = load_tc_summary()
-robust = load_robust_summary()
+fac_rets = load_factor_returns(matched=use_matched, risk_managed=rm_engaged)
+alpha = load_alpha_summary(matched=use_matched, risk_managed=rm_engaged)
+# Always keep the matched (Day 6) reference loaded — used for the overlay
+# diff in the Cumulative-returns chart and the Risk-managed comparison view.
+matched_fac_rets = load_factor_returns(matched=True, risk_managed=False)
+matched_alpha = load_alpha_summary(matched=True, risk_managed=False)
+rm_diag = load_risk_managed_diagnostics()
 events = load_events()
 
 # ----------------------------- Views -----------------------------
@@ -126,14 +183,17 @@ if view == "Overview":
     if alpha and "signals" in alpha:
         rows = []
         # Matched alpha summary uses keys like 'A_bhar_2m_matched';
-        # sector-mean (Day 4) summary uses 'A_bhar_2m'. Look in both.
-        candidate_sigs = ["A_bhar_2m_matched", "B_bhar_2m_matched",
+        # sector-mean (Day 4) summary uses 'A_bhar_2m'; risk-managed uses
+        # 'A_bhar_2m_matched_rm'. Look in all three.
+        candidate_sigs = ["A_bhar_2m_matched_rm", "B_bhar_2m_matched_rm",
+                          "A_bhar_2m_matched", "B_bhar_2m_matched",
                           "A_bhar_2m", "B_bhar_2m"]
         signals_present = alpha.get("signals", {})
         for sig in candidate_sigs:
             if sig not in signals_present:
                 continue
-            display = sig.replace("_matched", " (matched)")
+            display = (sig.replace("_matched_rm", " (RM)")
+                          .replace("_matched", " (matched)"))
             for w in ["FULL", "IS_2015_2021", "OOS_2022_2024"]:
                 b = signals_present[sig].get(w, {})
                 if not b.get("alpha"):
@@ -149,6 +209,10 @@ if view == "Overview":
                 })
         if rows:
             st.dataframe(pd.DataFrame(rows), hide_index=True, width="stretch")
+    if rm_engaged:
+        st.info("Risk-managed (RM) view is active. **POST-HOC** overlay (A=breadth>=4, "
+                "B=per-name 20% cap, C=10% vol-target). Pre-registered headline α is "
+                "the matched (Day 6) row above; toggle off the RM switch to revert.")
 
     st.markdown("---")
     st.markdown("**Pre-registration trail**: commits `c4cf77b` (Day 4 spec), `23cabfe` (CORRESP v3-corresp schema), `0819f75` (held-out validation). All locked BEFORE the corresponding extraction.")
@@ -224,13 +288,51 @@ elif view == "Cumulative returns":
         sel["cum_log"] = sel.groupby("signal_id")["raw_return"].cumsum()
         fig = px.line(sel, x="month", y="cum_log", color="signal_id",
                       title="Cumulative log return (long-short)")
+        # When RM overlay is engaged, also overlay the matched (Day 6) curves
+        # in light gray so the visual A/B is immediate.
+        if rm_engaged and not matched_fac_rets.empty:
+            # Pair each chosen RM signal with its matched counterpart.
+            ref_sigs = sorted({s.replace("_rm", "") for s in chosen if s.endswith("_rm")})
+            ref = matched_fac_rets[matched_fac_rets["signal_id"].isin(ref_sigs)].copy()
+            if not ref.empty:
+                ref["month"] = pd.to_datetime(ref["month"])
+                ref = ref.sort_values(["signal_id", "month"])
+                ref["cum_log"] = ref.groupby("signal_id")["raw_return"].cumsum()
+                for sid, grp in ref.groupby("signal_id"):
+                    fig.add_trace(go.Scatter(
+                        x=grp["month"], y=grp["cum_log"],
+                        mode="lines", name=f"{sid} (matched, ref)",
+                        line=dict(color="lightgray", width=1.5, dash="dot"),
+                        hoverinfo="skip", showlegend=True,
+                    ))
         st.plotly_chart(fig, width="stretch")
+        if rm_engaged:
+            st.caption("Light-gray dotted lines show the matched (Day 6) reference "
+                       "for visual A/B. Solid colored lines are the risk-managed (Day 7) "
+                       "post-hoc overlay.")
 
 
 elif view == "Robustness":
     st.title("Day 7 — Robustness across sector / size / liquidity strata")
+    rob_baseline_label = st.selectbox(
+        "Robustness baseline",
+        ["matched (Day 6)", "risk-managed (Day 7, N=4)", "sector-mean (Day 4, original)"],
+        index=0,
+        help=("Pick the underlying long-short factor whose per-stratum alpha is "
+              "shown. matched (Day 6) is the headline-consistent baseline; "
+              "sector-mean (Day 4) is the pre-registered original."),
+    )
+    rob_key = {
+        "matched (Day 6)": "matched",
+        "risk-managed (Day 7, N=4)": "rm",
+        "sector-mean (Day 4, original)": "sector_mean",
+    }[rob_baseline_label]
+    robust = load_robust_summary(rob_key)
+    st.caption(f"Active baseline: {rob_baseline_label}. matched and risk-managed "
+               "are new variants for headline-consistent baselines; sector-mean "
+               "is the original pre-registered table.")
     if not robust:
-        st.warning("Day 7 robustness not run.")
+        st.warning("Robustness summary not loaded for this baseline.")
     else:
         rows = []
         for label, b in robust.get("strata", {}).items():
@@ -241,27 +343,66 @@ elif view == "Robustness":
             else:
                 rows.append({
                     "stratum": label, "n_events": b["n_events"], "n_months": b["n_months"],
-                    "sharpe": round(b["sharpe_annual"], 2),
-                    "α_annual": f"{b['alpha_annual']*100:+.2f}%",
-                    "t": round(b["t_alpha"], 2), "p": round(b["p_alpha"], 3),
+                    "sharpe": round(b["sharpe_annual"], 2)
+                              if pd.notna(b.get("sharpe_annual")) else "—",
+                    "α_annual": f"{b['alpha_annual']*100:+.2f}%"
+                                if pd.notna(b.get("alpha_annual")) else "—",
+                    "t": round(b["t_alpha"], 2)
+                         if pd.notna(b.get("t_alpha")) else "—",
+                    "p": round(b["p_alpha"], 3)
+                         if pd.notna(b.get("p_alpha")) else "—",
                 })
         st.dataframe(pd.DataFrame(rows), hide_index=True, width="stretch")
-        st.caption("Note: signal is concentrated in size_q1-q2 (mid-cap). Largest quintile (q4) shows zero alpha. Smallest (q0) reverses with high noise.")
+        if rob_key == "rm":
+            st.caption("Note: many strata in the risk-managed view show all-zero "
+                        "monthly returns because the breadth filter (n_kept>=4) "
+                        "drops every month within that thin stratum.")
+        else:
+            st.caption("Note: signal is concentrated in size_q1-q2 (mid-cap). "
+                        "Largest quintile (q4) shows weak alpha; smallest (q0) "
+                        "reverses with high noise.")
 
 
 elif view == "TC sensitivity":
-    st.title("Day 6 — Post-transaction-cost sensitivity")
+    st.title("Post-transaction-cost sensitivity")
+    tc_baseline_label = st.selectbox(
+        "TC baseline",
+        ["matched (Day 6)", "risk-managed (Day 7, N=4)", "sector-mean (Day 4, original spec)"],
+        index=0,
+        help=("Pick the underlying long-short factor whose monthly returns the "
+              "TC model deducts from. matched (Day 6) is the headline-consistent "
+              "baseline."),
+    )
+    tc_key = {
+        "matched (Day 6)": "matched",
+        "risk-managed (Day 7, N=4)": "rm",
+        "sector-mean (Day 4, original spec)": "sector_mean",
+    }[tc_baseline_label]
+    tc = load_tc_summary(tc_key)
+    st.caption(f"Active baseline: {tc_baseline_label}. The sector-mean view is "
+               "the original pre-registered TC table; matched and risk-managed "
+               "are new variants for headline-consistent baselines.")
     if not tc:
-        st.warning("TC summary not loaded.")
+        st.warning("TC summary not loaded for this baseline.")
     else:
         sigs = sorted(tc.get("signals", {}).keys())
-        chosen = st.selectbox("Signal", sigs, index=sigs.index("B_bhar_2m") if "B_bhar_2m" in sigs else 0)
+        # Default to the headline A 2m signal in the active baseline.
+        default_sig = next(
+            (s for s in ["A_bhar_2m_matched", "A_bhar_2m_matched_rm", "A_bhar_2m"]
+             if s in sigs),
+            sigs[0] if sigs else "",
+        )
+        chosen = st.selectbox(
+            "Signal", sigs,
+            index=sigs.index(default_sig) if default_sig in sigs else 0,
+        )
         rows = []
         for w in ["FULL", "IS_2015_2021", "OOS_2022_2024"]:
             for tc_label in ["raw", "optimistic_5bp", "reasonable_10bp", "conservative_20bp"]:
                 key = f"{w}_{tc_label}"
                 b = tc["signals"][chosen].get(key)
-                if not b: continue
+                if not b:
+                    continue
                 a = b.get("alpha_post_tc", {})
                 rows.append({
                     "window": w, "tc": tc_label,
@@ -273,6 +414,70 @@ elif view == "TC sensitivity":
         st.dataframe(pd.DataFrame(rows), hide_index=True, width="stretch")
         be = tc["signals"][chosen].get("break_even_tc_bps", float("nan"))
         st.metric("Break-even TC (bps/month for α=0)", f"{be:.1f} bps/mo")
+
+
+elif view == "Risk-managed comparison":
+    st.title("Day 7 — Risk-managed overlay (post-hoc) vs Day 6 matched")
+    st.caption("Overlay A=breadth filter (n_kept>=4), B=per-name 20% cap "
+               "(or 1.5/N for small N), C=10% vol-target with 6m lag-1 rolling "
+               "sigma. Pre-registered headline alpha is the matched (Day 6) "
+               "view; this overlay is POST-HOC. Cutoff N=4 chosen post-sweep "
+               "over {4,5,6,8} — sweep results archived in "
+               "`data/day7_risk_managed_n{N}_*` files.")
+
+    if not rm_diag:
+        st.warning("Day 7 risk-managed diagnostics not found. "
+                   "Run scripts/day7_risk_managed_overlay.py first.")
+    else:
+        spec = rm_diag.get("spec", {})
+        cols = st.columns(5)
+        cols[0].metric("Breadth min", spec.get("breadth_min", "?"))
+        cols[1].metric("Name cap (base)", f"{spec.get('name_cap_base', 0)*100:.0f}%")
+        cols[2].metric("Vol target (annual)", f"{spec.get('vol_target_annual', 0)*100:.0f}%")
+        cols[3].metric("Vol lookback (months)", spec.get("vol_lookback_months", "?"))
+        cols[4].metric("Leverage cap", f"{spec.get('lev_cap', 0):.1f}x")
+
+        st.subheader("MDD before / after")
+        mdd_rows = rm_diag.get("mdd_comparison", [])
+        if mdd_rows:
+            df_mdd = pd.DataFrame([{
+                "Signal": r["signal_id"],
+                "MDD matched (Day 6)": f"{r['mdd_matched']*100:+.1f}%",
+                "MDD risk-managed (Day 7)": f"{r['mdd_risk_managed']*100:+.1f}%",
+                "MDD reduction (abs)": f"{r['mdd_improvement_abs']*100:+.1f}pp",
+                "Calmar (RM, OOS)": (round(r["calmar_rm_oos"], 2)
+                                     if r.get("calmar_rm_oos") is not None else "—"),
+            } for r in mdd_rows])
+            st.dataframe(df_mdd, hide_index=True, width="stretch")
+
+        st.subheader("Per-signal overlay diagnostics")
+        per = rm_diag.get("per_signal", {})
+        if per:
+            df_per = pd.DataFrame([{
+                "Signal": k,
+                "Total months": v.get("n_months_total"),
+                "Months dropped (n_kept<4)": v.get("n_months_dropped"),
+                "Months name-cap hit": v.get("n_months_capped"),
+                "Months lev capped (=2x)": v.get("n_months_lev_capped"),
+                "Mean n_kept": round(v.get("mean_n_kept", float("nan")), 2),
+                "Mean leverage": round(v.get("mean_leverage", float("nan")), 2),
+                "Max leverage": round(v.get("max_leverage", float("nan")), 2),
+            } for k, v in per.items()])
+            st.dataframe(df_per, hide_index=True, width="stretch")
+
+        st.markdown("---")
+        st.markdown(
+            "**Interpretation note**: with median n_kept = 4-6 across signals, "
+            "the cutoff value matters a lot. Initial spec used N=8 (a-priori "
+            "guess) and dropped 70% of months — alpha collapsed to +7.3% (t=1.61) "
+            "even as MDD fell to -15%. After sweep over {4,5,6,8}, **N=4 was "
+            "selected**: drops only 27% of months, preserves OOS α at +20.8%/yr "
+            "(t=3.08, p=0.002 — t-stat actually IMPROVES vs raw matched 2.86 "
+            "because vol-target shrinks SE faster than alpha), MDD -13.6%, "
+            "Calmar 1.53. Per-name cap and vol target are second-order to the "
+            "breadth filter. The headline pre-registered alpha remains the Day 6 "
+            "matched cell — this overlay is a separate *implementable variant*."
+        )
 
 
 elif view == "About":
