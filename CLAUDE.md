@@ -167,3 +167,20 @@ Final QA, CV/LinkedIn 반영.
 3. (90s) Methodology rigor: FDR, Deflated Sharpe, contamination audit, ablation vs LM sentiment
 4. (60s) Novel contribution: no prior LLM alpha on SEC UPLOAD/CORRESP pair 의 구조화
 5. (30s) "GitHub + paper + dashboard 모두 공개. 재현 1 command."
+
+---
+
+## Inter-Repo Mailbox
+
+QR Scout 4 멤버 간 파일 기반 메시지 버스. 사용자 매개 X.
+
+- **Inbox**: `D:/vscode/portfolio-coordination/mailbox/sec_comment_letter_alpha/`
+- **스키마 + 절차**: `D:/vscode/portfolio-coordination/mailbox/SCHEMA.md`
+- **자동 감지**: SessionStart + UserPromptSubmit hooks (`.claude/settings.json`)
+- **설계**: `d:/vscode/meta-harness/audits/2026-04-26-inter-repo-mailbox-design.md`
+
+처리: 메시지 read → frontmatter status 갱신 (resolved/acknowledged/rejected) → 회신 필요 시 `mailbox/<from>/` 에 reply 작성 (`in_reply_to: <orig_cid>`) → 원본을 `processed/` 로 mv + `.index.jsonl` 한 줄 append. 세션 응답 도입부에 "📬 처리: N건" 1~2줄. 0건이면 생략.
+
+발송: `mailbox/<target>/<ISO8601>-sec_comment_letter_alpha-<slug>.md` 작성. 발송 직전 사용자 1줄 알림.
+
+**금지**: API key / secret / .env / 라이브 주문 파라미터 / 개인 자금 금액 절대 메시지 금지 (git 추적). 본문 200줄 초과 시 별도 파일 + refs.

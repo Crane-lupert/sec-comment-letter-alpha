@@ -15,28 +15,22 @@ CLAUDE.md Day 6-7 Rigor Checklist requires Benjamini-Hochberg FDR correction. Da
 ## Headline numbers
 
 - Total cells tested: **120**
-- Eligible (≥15 events & ≥12 months): **40**
-- Pass nominal p<0.05: **3**
-- Pass BH-FDR at α=0.05: **0**
+- Eligible (≥15 events & ≥12 months): **43**
+- Pass nominal p<0.05: **10**
+- Pass BH-FDR at α=0.05: **2**
 
 ## Top 10 surviving cells (by |t|)
 
-_No cells survive BH-FDR at α=0.05._
-
-
-As a consolation, top 10 by nominal-p (for diagnostic only):
-
-| stratum | window | n_months | alpha_annual | t | p_raw | p_BH |
-|---|---|---|---|---|---|---|
-| sev_0.5_0.8 | OOS_2022_2024 | 34 | 0.2973 | +3.00 | 0.0027 | 0.1064 |
-| topic=non_gaap_metrics|sev_0.2_0.5 | FULL | 22 | -0.3662 | -2.00 | 0.0455 | 0.5225 |
-| sev_0.5_0.8 | FULL | 95 | 0.2409 | +1.98 | 0.0478 | 0.5225 |
+| stratum | window | n_months | n_events | alpha_annual | t | p_raw | p_BH |
+|---|---|---|---|---|---|---|---|
+| topic=non_gaap_metrics | FULL | 67 | 231 | 0.3276 | +3.11 | 0.0019 | 0.0411 |
+| sev_0.5_0.8 | OOS_2022_2024 | 35 | 439 | 0.3056 | +3.10 | 0.0019 | 0.0411 |
 
 ## Interpretation
 
-**No per-stratum cell survives BH-FDR at α=0.05.** That is the honest answer: even though some individual slices show nominal p<0.05, the count is in the range expected by chance for 40 simultaneous tests. The Day 4/6 headline alphas are pre-registered (only 8 cells, not 100+); selecting any one topic ex-post would be data-mining.
+**2 cell(s) survive BH-FDR at α=0.05.** These are robust to multiple-comparison correction across the 43-cell stratification grid; alpha here is not chance-discovered.
 
-This is a *negative result on the topic-stratification dimension*, not on the main signal. The pre-registered B_bhar_2m_matched alpha remains the headline; topic-level decomposition adds explanatory color but no additional tradeable strata.
+Caveat: surviving cells with overlap (e.g. `topic=X` and `topic=X|sev_band`) are not statistically independent — BH controls false-discovery rate under arbitrary positive dependence (Benjamini-Yekutieli would be even more conservative).
 
 ## Files
 

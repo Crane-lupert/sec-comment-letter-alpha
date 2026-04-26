@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "_note": "Project X (SEC Comment Letter). shared-utils 는 read-only (cross-repo). SEC 직접 호출 금지 (coordination daemon 사용).",
+  "_note": "Project X (SEC Comment Letter). shared-utils 는 read-only (cross-repo). SEC 직접 호출 금지 (coordination daemon 사용). 2026-04-26: portfolio-coordination/mailbox cross-repo write 허용 (메일박스 호스팅), 보호 경로 deny 정밀화. checkpoints/ 도 write 허용 (CLAUDE.md 의 daily checkpoint 의무).",
   "permissions": {
     "allow": [
       "Read",
@@ -42,6 +42,11 @@
       "Bash(git branch:*)",
       "Bash(git checkout:*)",
 
+      "Edit(D:/vscode/portfolio-coordination/mailbox/**)",
+      "Write(D:/vscode/portfolio-coordination/mailbox/**)",
+      "Edit(D:/vscode/portfolio-coordination/checkpoints/**)",
+      "Write(D:/vscode/portfolio-coordination/checkpoints/**)",
+
       "Task",
       "TodoWrite"
     ],
@@ -60,8 +65,27 @@
       "Bash(git push -f:*)",
       "Bash(git branch -D:*)",
 
-      "Edit(D:/vscode/portfolio-coordination/**)",
-      "Write(D:/vscode/portfolio-coordination/**)",
+      "Edit(D:/vscode/portfolio-coordination/scripts/**)",
+      "Write(D:/vscode/portfolio-coordination/scripts/**)",
+      "Edit(D:/vscode/portfolio-coordination/shared-utils/**)",
+      "Write(D:/vscode/portfolio-coordination/shared-utils/**)",
+      "Edit(D:/vscode/portfolio-coordination/sec-data/**)",
+      "Write(D:/vscode/portfolio-coordination/sec-data/**)",
+      "Edit(D:/vscode/portfolio-coordination/CLAUDE.md)",
+      "Write(D:/vscode/portfolio-coordination/CLAUDE.md)",
+      "Edit(D:/vscode/portfolio-coordination/README.md)",
+      "Write(D:/vscode/portfolio-coordination/README.md)",
+      "Edit(D:/vscode/portfolio-coordination/.claude/**)",
+      "Write(D:/vscode/portfolio-coordination/.claude/**)",
+      "Edit(D:/vscode/portfolio-coordination/openrouter-config.yaml)",
+      "Write(D:/vscode/portfolio-coordination/openrouter-config.yaml)",
+      "Edit(D:/vscode/portfolio-coordination/pyproject.toml)",
+      "Write(D:/vscode/portfolio-coordination/pyproject.toml)",
+      "Edit(D:/vscode/portfolio-coordination/mailbox/_meta/**)",
+      "Write(D:/vscode/portfolio-coordination/mailbox/_meta/**)",
+      "Edit(D:/vscode/portfolio-coordination/mailbox/SCHEMA.md)",
+      "Write(D:/vscode/portfolio-coordination/mailbox/SCHEMA.md)",
+
       "Edit(D:/vscode/activist-intent-llm/**)",
       "Write(D:/vscode/activist-intent-llm/**)",
       "Edit(D:/vscode/factor-zoo-decay-audit/**)",
@@ -71,6 +95,30 @@
 
       "Edit(./.env)",
       "Write(./.env)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash D:/vscode/portfolio-coordination/scripts/check-mailbox.sh sec_comment_letter_alpha"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash D:/vscode/portfolio-coordination/scripts/check-mailbox-incremental.sh sec_comment_letter_alpha"
+          }
+        ]
+      }
     ]
   }
 }
