@@ -1,0 +1,12 @@
+# Streamlit Cloud reads this in preference to pyproject.toml.
+# Minimal deps for dashboard/app.py only -- the full package
+# (sec_comment_letter_alpha) imports shared_utils which lives in a
+# sibling repo (portfolio-coordination/shared-utils) and would fail
+# on Streamlit Cloud. The dashboard reads pre-computed data files
+# from dashboard/data_for_app/ and does NOT need the package.
+
+streamlit>=1.35
+pandas>=2.2
+numpy>=1.26
+plotly>=5.22
+pyarrow>=16
