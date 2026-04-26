@@ -146,6 +146,34 @@ Including CORRESP-derived features at upload_date would leak future info.
 - Signal B uses BOTH and start_month = corresp_date+1, with forward window
   shifted accordingly. No leakage in either signal.
 
+## 9a. **CRITICAL DISCOVERY: Day 4 IS alpha was largely sector-residualization artifact**
+
+**Finding**: The Day 4 cross-section pipeline used "sector-mean of letter
+recipients in same month" as the long-leg control instead of properly
+matched non-letter firms (the pre-registration explicitly called for the
+latter). Day 6 corrects this with K=5 matched non-letter R3K controls
+per event (same sector, ±20% size proxy band).
+
+**Result of correction** (matched - sector-mean):
+- Signal B IS alpha_t: 2.52 → 0.76 (~60% of IS alpha was artifact)
+- Signal A IS alpha_t: 2.84 → -0.18 (essentially zero post-correction)
+- Signal B OOS alpha_t: 1.26 → 1.69 (improved, p≈0.10)
+- **Signal A OOS alpha_t: 0.92 → 2.87 (jumped to p=0.007 ✅)**
+
+**Interpretation**: the "scout-worthy" Day 4 IS results were over-stated by
+sector-residualization. However, the OOS window (post-2022) shows a real
+matched-control signal especially for the early-tradeable Signal A. The
+honest story is: post-COVID 2022-2024 has tradeable signal; pre-2022 IS
+was mostly noise inflated by the control choice.
+
+**Mitigation taken**: All Day 6+ analysis uses the matched control. Day 4
+results are preserved in git for reproducibility but explicitly tagged as
+"sector-mean control, partial residualization" in [docs/day4_results.md].
+
+**Residual limitation**: size proxy = adjusted close, not market cap (no
+shares-outstanding history in free data). True market-cap matching needs
+CRSP/Compustat via WRDS.
+
 ## 9. Sector concentration — Industrials 29%
 
 **Issue**: SEC review activity is uneven across sectors; Industrials and
