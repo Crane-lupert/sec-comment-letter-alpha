@@ -1,17 +1,20 @@
 # SEC Comment Letter Cross-Section Alpha
 
-**Status**: Day 4-11 results committed; sample expansion in flight; targeted Day 14 finish.
+**Status**: 14-day timebox complete (2026-04-27). [GitHub](https://github.com/Crane-lupert/sec-comment-letter-alpha) + [Streamlit dashboard](https://sec-comment-letter-alpha-260427ah.streamlit.app) live. **한국어 실무 보고**: [README_KR.md](README_KR.md).
 
 ## What this is
 
-Cross-sectional equity alpha from ~5,000 R3K SEC `UPLOAD` (SEC → company) and `CORRESP` (company → SEC) letter pairs, 2015-2025, via a multi-LLM ensemble (gemma-3-27b + llama-3.3-70b + claude-opus-4.7 oracle). Pre-registered, held-out validated, contamination-audited.
+Cross-sectional equity alpha from ~5,000 R3K SEC `UPLOAD` (SEC → company) and `CORRESP` (company → SEC) letter pairs, 2015-2025, via a multi-LLM ensemble (gemma-3-27b + llama-3.3-70b + claude-opus-4.7 oracle). Pre-registered, held-out validated, contamination-audited. Final analyzable sample: 1,014 letter pairs.
 
 ## 5-minute skim
 
 1. **Hypothesis**: SEC comment letters reveal firm-level disclosure vulnerabilities; letter content predicts post-letter abnormal returns through (topic × severity × response intent).
-2. **Method**: ensemble extraction → severity-weighted long-short with K=5 matched non-letter R3K controls → FF5+UMD residual α + Newey-West HAC + bootstrap CI + Bailey-López de Prado DSR.
-3. **Headline (Day 6 matched, BHAR 2m)**: see [docs/day4_results.md](docs/day4_results.md) and [docs/day6_matched_control.md](docs/day6_matched_control.md). Honest finding: ~60% of Day 4 IS alpha was sector-residualization artifact; OOS Signal A at t=2.87 is the real claim.
-4. **Robustness**: signal concentrated in size mid-cap quintile (q1-q2). LM 10-K sentiment ablation: alpha unchanged (t 3.04 → 3.05). 20bp/month TC: Sharpe drops to 0.79 from 1.10, alpha still significant (t=2.13).
+2. **Method**: ensemble extraction → severity-weighted long-short with K=5 matched non-letter R3K controls (same sector, ±20% size band) → FF5+UMD residual α + Newey-West HAC + month-cluster bootstrap CI + Bailey-López de Prado DSR.
+3. **Headline (matched control, BHAR 2m, n=1,014 pairs)**:
+   - **Signal A** (UPLOAD-only, early-tradeable) **OOS 2022-2024**: α=**+11.92%/yr**, **t=2.86**, p=0.007, **DSR=1.00**, Sharpe 1.43, n_OOS=36 months.
+   - **Signal B** (UPLOAD+CORRESP, late-tradeable) OOS: α=+7.22%/yr, t=2.55, p=0.015, DSR=1.00, Sharpe 1.27.
+   - Honest finding: ~60% of Day 4 IS alpha was sector-residualization artifact (self-corrected on Day 6, both versions preserved). See [docs/day14_final_results.md](docs/day14_final_results.md) and [docs/day6_matched_control.md](docs/day6_matched_control.md).
+4. **Robustness**: TC break-even ~71 bps/month (3-15× margin over realistic 5-20 bps). LM 10-K sentiment ablation: signal independent (Signal B OOS t 1.98 → 2.45 with LM in baseline). Mid-cap (size_q1) concentration: +26%/yr t=3.15; large-cap zero alpha. **BH FDR survivors** (43 cells, α=0.05): 2 — non_gaap_metrics FULL (α=+33%, p_BH=0.041) + severity 0.5-0.8 OOS (α=+31%, p_BH=0.041). Plus pre-registered headline = **3 FDR-safe claims**.
 5. **Reproducibility**: pre-registration commits `c4cf77b`, `23cabfe`, `0819f75`. 1-command run: `scripts/day4_run_all.py`.
 
 ## Repo structure
