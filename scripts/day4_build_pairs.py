@@ -33,6 +33,7 @@ UPLOAD_FEATURES = REPO_ROOT / "data" / "day3_features_r3k.jsonl"
 CORRESP_V2_FEATURES = REPO_ROOT / "data" / "day3_corresp_features_r3k.jsonl"
 CORRESP_V3_TRAIN = REPO_ROOT / "data" / "day3_corresp_v3_train.jsonl"
 CORRESP_V3_TEST = REPO_ROOT / "data" / "day3_corresp_v3_test.jsonl"
+CORRESP_V3_FULL = REPO_ROOT / "data" / "day3_corresp_v3_full.jsonl"
 OUT = REPO_ROOT / "data" / "day4_pairs.jsonl"
 
 
@@ -134,7 +135,12 @@ def main() -> int:
 
     up_feat = _load_jsonl(UPLOAD_FEATURES)
     co_feat = _load_jsonl(CORRESP_V2_FEATURES)
-    v3_feat = {**_load_jsonl(CORRESP_V3_TRAIN), **_load_jsonl(CORRESP_V3_TEST)}
+    # Merge v3-corresp from train + test + full (later sources win on key collision)
+    v3_feat = {
+        **_load_jsonl(CORRESP_V3_TRAIN),
+        **_load_jsonl(CORRESP_V3_TEST),
+        **_load_jsonl(CORRESP_V3_FULL),
+    }
     print(f"[day4] UPLOAD features: {len(up_feat)}")
     print(f"[day4] CORRESP v2 features: {len(co_feat)}")
     print(f"[day4] CORRESP v3-corresp features: {len(v3_feat)}")

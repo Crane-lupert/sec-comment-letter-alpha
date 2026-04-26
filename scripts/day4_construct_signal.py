@@ -48,7 +48,7 @@ def _construct_one(ev: pd.DataFrame, spec: dict) -> pd.DataFrame:
     start_col = spec["start_col"]
     ret_col = spec["return_col"]
     df = ev[[start_col, "sector", "upload_severity_mean", ret_col]].dropna(subset=[ret_col, "sector"]).copy()
-    df["month"] = df[start_col].values.astype("datetime64[M]").astype("datetime64[ns]") + pd.offsets.MonthEnd(0)
+    df["month"] = pd.to_datetime(df[start_col]) + pd.offsets.MonthEnd(0)
 
     out_rows = []
     for month, grp in df.groupby("month"):
