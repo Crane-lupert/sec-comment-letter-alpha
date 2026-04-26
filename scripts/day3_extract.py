@@ -149,7 +149,14 @@ def main(argv: list[str] | None = None) -> int:
         universe = [r for r in universe if r.cik in allowed_ciks]
         print(f"[day3] universe filter applied: {before} -> {len(universe)} records (allowed_ciks={len(allowed_ciks)})")
 
-    universe.sort(key=lambda r: 1 if r.ext == ".pdf" else 0)
+    # Sort by date DESC -- prioritize 2015-2024 target-window records.
+    # PDF/non-PDF distinction is moot post-daemon-patch (PDFs extract cleanly).
+    def _date_key(r):
+        try:
+            return -int(r.date.replace("-", "")[:8])
+        except (AttributeError, ValueError):
+            return 0
+    universe.sort(key=_date_key)
     universe = universe[: args.n]
 
     todo = [r for r in universe if (r.cik, r.accession) not in done]

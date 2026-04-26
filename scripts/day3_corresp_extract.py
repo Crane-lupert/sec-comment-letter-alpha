@@ -153,7 +153,12 @@ def main(argv: list[str] | None = None) -> int:
         universe = [r for r in universe if (r.cik, r.accession) in allowed_keys]
         print(f"[day3-corresp] keys filter applied: {before} -> {len(universe)} (allowed_keys={len(allowed_keys)})")
 
-    universe.sort(key=lambda r: 1 if r.ext == ".pdf" else 0)
+    def _date_key(r):
+        try:
+            return -int(r.date.replace("-", "")[:8])
+        except (AttributeError, ValueError):
+            return 0
+    universe.sort(key=_date_key)
     universe = universe[: args.n]
     todo = [r for r in universe if (r.cik, r.accession) not in done]
     print(f"[day3-corresp] universe(cap {args.n}): {len(universe)} | todo: {len(todo)} | models: {args.models}")
