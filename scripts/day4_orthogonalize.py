@@ -18,6 +18,7 @@ Outputs:
 
 from __future__ import annotations
 
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -121,9 +122,19 @@ def analyze_window(rets: pd.DataFrame, french: pd.DataFrame, label: str, sig_id:
 
 
 def main() -> int:
-    rets = pd.read_parquet(RETS)
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--input", type=str, default=str(RETS),
+                    help="Path to factor-returns parquet (default: data/day4_factor_returns.parquet)")
+    ap.add_argument("--output", type=str, default=str(OUT),
+                    help="Path to write alpha summary JSON (default: data/day4_alpha_summary.json)")
+    args = ap.parse_args()
+    in_path = Path(args.input)
+    out_path = Path(args.output)
+
+    rets = pd.read_parquet(in_path)
     french = pd.read_parquet(FRENCH)
     sig_ids = sorted(rets["signal_id"].unique())
+    print(f"[ortho] input={in_path}")
     print(f"[ortho] signals: {sig_ids}")
     out: dict = {"signals": {}}
     for sig in sig_ids:
@@ -134,9 +145,9 @@ def main() -> int:
             "OOS_2022_2024": analyze_window(
                 rets[(rets["month"] >= OOS_START) & (rets["month"] <= OOS_END)], french, "OOS", sig),
         }
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(out, indent=2, default=str), encoding="utf-8")
-    print(f"[ortho] wrote {OUT}")
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(out, indent=2, default=str), encoding="utf-8")
+    print(f"[ortho] wrote {out_path}")
     print("\n=== Headline (signal | window | n | raw_sharpe | resid_sharpe | alpha_t | dsr) ===")
     for sig, blocks in out["signals"].items():
         for label, b in blocks.items():
