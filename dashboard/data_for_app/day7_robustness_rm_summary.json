@@ -1,0 +1,238 @@
+{
+  "mode": "rm",
+  "baseline": "Day 7 risk-managed (N=4) overlay",
+  "headline_signal_spec": "A_bhar_2m_matched",
+  "config": {
+    "ret_col": "bhar_a_2m",
+    "min_n_events": 15,
+    "min_n_months": 12,
+    "nw_lag": 6,
+    "breadth_min": 4,
+    "name_cap_base": 0.2,
+    "vol_target_annual": 0.1,
+    "vol_lookback_months": 6,
+    "lev_cap": 2.0
+  },
+  "strata": {
+    "FULL": {
+      "label": "FULL",
+      "n_events": 759,
+      "n_months": 127,
+      "sharpe_annual": 1.0890446636108881,
+      "alpha_monthly": 0.012069329110285704,
+      "alpha_annual": 0.14483194932342847,
+      "t_alpha": 4.066478343293501,
+      "p_alpha": 4.7728918409456796e-05
+    },
+    "sector=Industrials": {
+      "label": "sector=Industrials",
+      "n_events": 222,
+      "n_months": 97,
+      "sharpe_annual": 0.3897655092760357,
+      "alpha_monthly": 0.002680965686115408,
+      "alpha_annual": 0.032171588233384896,
+      "t_alpha": 0.7803306092599385,
+      "p_alpha": 0.4351963003279159
+    },
+    "sector=Health Care": {
+      "label": "sector=Health Care",
+      "n_events": 51,
+      "n_months": 39,
+      "sharpe_annual": 0.5619514869490164,
+      "alpha_monthly": 0.0017195749242488905,
+      "alpha_annual": 0.020634899090986685,
+      "t_alpha": 1.7463090039334224,
+      "p_alpha": 0.0807572721403461
+    },
+    "sector=Information Technology": {
+      "label": "sector=Information Technology",
+      "n_events": 72,
+      "n_months": 60,
+      "sharpe_annual": NaN,
+      "alpha_monthly": 0.0,
+      "alpha_annual": 0.0,
+      "t_alpha": NaN,
+      "p_alpha": NaN
+    },
+    "sector=Materials": {
+      "label": "sector=Materials",
+      "n_events": 77,
+      "n_months": 57,
+      "sharpe_annual": NaN,
+      "alpha_monthly": 0.0,
+      "alpha_annual": 0.0,
+      "t_alpha": NaN,
+      "p_alpha": NaN
+    },
+    "sector=Real Estate": {
+      "label": "sector=Real Estate",
+      "n_events": 25,
+      "n_months": 23,
+      "sharpe_annual": NaN,
+      "alpha_monthly": 0.0,
+      "alpha_annual": 0.0,
+      "t_alpha": NaN,
+      "p_alpha": NaN
+    },
+    "sector=Energy": {
+      "label": "sector=Energy",
+      "n_events": 62,
+      "n_months": 46,
+      "sharpe_annual": 0.5163977794943222,
+      "alpha_monthly": 0.00015665229926239198,
+      "alpha_annual": 0.001879827591148704,
+      "t_alpha": 1.0841943336433593,
+      "p_alpha": 0.2782786435121608
+    },
+    "sector=Utilities": {
+      "label": "sector=Utilities",
+      "n_events": 15,
+      "n_months": 12,
+      "sharpe_annual": NaN,
+      "alpha_monthly": 0.0,
+      "alpha_annual": 0.0,
+      "t_alpha": NaN,
+      "p_alpha": NaN
+    },
+    "sector=Financials": {
+      "label": "sector=Financials",
+      "n_events": 68,
+      "n_months": 51,
+      "sharpe_annual": NaN,
+      "alpha_monthly": 0.0,
+      "alpha_annual": 0.0,
+      "t_alpha": NaN,
+      "p_alpha": NaN
+    },
+    "sector=Consumer Staples": {
+      "label": "sector=Consumer Staples",
+      "n_events": 62,
+      "n_months": 51,
+      "sharpe_annual": NaN,
+      "alpha_monthly": 0.0,
+      "alpha_annual": 0.0,
+      "t_alpha": NaN,
+      "p_alpha": NaN
+    },
+    "sector=Consumer Discretionary": {
+      "label": "sector=Consumer Discretionary",
+      "n_events": 84,
+      "n_months": 58,
+      "sharpe_annual": -0.45883146774112354,
+      "alpha_monthly": -6.876117040328498e-05,
+      "alpha_annual": -0.0008251340448394197,
+      "t_alpha": -0.8954232138266507,
+      "p_alpha": 0.370560895956239
+    },
+    "sector=Communication": {
+      "label": "sector=Communication",
+      "n_events": 21,
+      "n_months": 19,
+      "sharpe_annual": NaN,
+      "alpha_monthly": 0.0,
+      "alpha_annual": 0.0,
+      "t_alpha": NaN,
+      "p_alpha": NaN
+    },
+    "size_q0": {
+      "label": "size_q0",
+      "n_events": 78,
+      "n_months": 60,
+      "sharpe_annual": -0.45098761680169724,
+      "alpha_monthly": -0.0024628382335972767,
+      "alpha_annual": -0.02955405880316732,
+      "t_alpha": -1.2085067620109267,
+      "p_alpha": 0.22685239637031407
+    },
+    "size_q1": {
+      "label": "size_q1",
+      "n_events": 127,
+      "n_months": 87,
+      "sharpe_annual": NaN,
+      "alpha_monthly": 0.0,
+      "alpha_annual": 0.0,
+      "t_alpha": NaN,
+      "p_alpha": NaN
+    },
+    "size_q2": {
+      "label": "size_q2",
+      "n_events": 160,
+      "n_months": 93,
+      "sharpe_annual": 0.48244578774517155,
+      "alpha_monthly": 0.0019670221850900485,
+      "alpha_annual": 0.023604266221080583,
+      "t_alpha": 1.304975769091608,
+      "p_alpha": 0.19190109884224527
+    },
+    "size_q3": {
+      "label": "size_q3",
+      "n_events": 208,
+      "n_months": 90,
+      "sharpe_annual": -0.37021043416590116,
+      "alpha_monthly": -0.004201245322677961,
+      "alpha_annual": -0.050414943872135534,
+      "t_alpha": -1.4987614910788662,
+      "p_alpha": 0.1339355180369657
+    },
+    "size_q4": {
+      "label": "size_q4",
+      "n_events": 186,
+      "n_months": 83,
+      "sharpe_annual": 0.5006228368606441,
+      "alpha_monthly": 0.00323136956447684,
+      "alpha_annual": 0.03877643477372208,
+      "t_alpha": 1.4961596195120048,
+      "p_alpha": 0.13461206457589212
+    },
+    "liq_q0": {
+      "label": "liq_q0",
+      "n_events": 168,
+      "n_months": 85,
+      "sharpe_annual": -0.2741168069814704,
+      "alpha_monthly": -0.0018108211207607413,
+      "alpha_annual": -0.021729853449128894,
+      "t_alpha": -0.5888089616716834,
+      "p_alpha": 0.5559894334805177
+    },
+    "liq_q1": {
+      "label": "liq_q1",
+      "n_events": 170,
+      "n_months": 86,
+      "sharpe_annual": 0.45798954242216156,
+      "alpha_monthly": 0.0035322752929211236,
+      "alpha_annual": 0.04238730351505349,
+      "t_alpha": 1.480361050971481,
+      "p_alpha": 0.13877691851554164
+    },
+    "liq_q2": {
+      "label": "liq_q2",
+      "n_events": 175,
+      "n_months": 88,
+      "sharpe_annual": 0.8898879097270158,
+      "alpha_monthly": 0.005574593043482998,
+      "alpha_annual": 0.06689511652179597,
+      "t_alpha": 2.4182571683636893,
+      "p_alpha": 0.015595050698543174
+    },
+    "liq_q3": {
+      "label": "liq_q3",
+      "n_events": 147,
+      "n_months": 86,
+      "sharpe_annual": 0.5495525878615865,
+      "alpha_monthly": 0.0017778224886772082,
+      "alpha_annual": 0.021333869864126498,
+      "t_alpha": 1.2041618853995562,
+      "p_alpha": 0.22852701443071743
+    },
+    "liq_q4": {
+      "label": "liq_q4",
+      "n_events": 97,
+      "n_months": 66,
+      "sharpe_annual": 0.6109691301719185,
+      "alpha_monthly": 0.004320492246224761,
+      "alpha_annual": 0.051845906954697124,
+      "t_alpha": 1.5275401369829964,
+      "p_alpha": 0.12662675455421862
+    }
+  }
+}

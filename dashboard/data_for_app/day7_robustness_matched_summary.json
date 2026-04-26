@@ -1,0 +1,214 @@
+{
+  "mode": "matched",
+  "baseline": "Day 6 matched control",
+  "headline_signal_spec": "A_bhar_2m_matched",
+  "config": {
+    "ret_col": "bhar_a_2m",
+    "min_n_events": 15,
+    "min_n_months": 12,
+    "nw_lag": 6,
+    "breadth_min": null,
+    "name_cap_base": null,
+    "vol_target_annual": null,
+    "vol_lookback_months": null,
+    "lev_cap": null
+  },
+  "strata": {
+    "FULL": {
+      "label": "FULL",
+      "n_events": 759,
+      "n_months": 123,
+      "sharpe_annual": 0.7345150493514578,
+      "alpha_monthly": 0.013670405376520216,
+      "alpha_annual": 0.1640448645182426,
+      "t_alpha": 1.8498113578911024,
+      "p_alpha": 0.064340743275668
+    },
+    "sector=Industrials": {
+      "label": "sector=Industrials",
+      "n_events": 222,
+      "n_months": 66,
+      "sharpe_annual": 0.5068909462760703,
+      "alpha_monthly": 0.014855947741972204,
+      "alpha_annual": 0.17827137290366646,
+      "t_alpha": 0.9470663429901528,
+      "p_alpha": 0.34360497386274036
+    },
+    "sector=Health Care": {
+      "label": "sector=Health Care",
+      "n_events": 51,
+      "n_months": 9,
+      "skipped": true
+    },
+    "sector=Information Technology": {
+      "label": "sector=Information Technology",
+      "n_events": 72,
+      "n_months": 11,
+      "skipped": true
+    },
+    "sector=Materials": {
+      "label": "sector=Materials",
+      "n_events": 77,
+      "n_months": 14,
+      "sharpe_annual": 1.183092041457995,
+      "alpha_monthly": 0.020507566022328408,
+      "alpha_annual": 0.2460907922679409,
+      "t_alpha": 1.7633111767166658,
+      "p_alpha": 0.07784802127853342
+    },
+    "sector=Real Estate": {
+      "label": "sector=Real Estate",
+      "n_events": 25,
+      "n_months": 2,
+      "skipped": true
+    },
+    "sector=Energy": {
+      "label": "sector=Energy",
+      "n_events": 62,
+      "n_months": 13,
+      "sharpe_annual": -0.31405861414016256,
+      "alpha_monthly": -0.06112794178978017,
+      "alpha_annual": -0.733535301477362,
+      "t_alpha": -5.937440451726196,
+      "p_alpha": 2.895061442810161e-09
+    },
+    "sector=Utilities": {
+      "label": "sector=Utilities",
+      "n_events": 15,
+      "n_months": 3,
+      "skipped": true
+    },
+    "sector=Financials": {
+      "label": "sector=Financials",
+      "n_events": 68,
+      "n_months": 15,
+      "sharpe_annual": 1.4028930581267995,
+      "alpha_monthly": 0.02589387508984904,
+      "alpha_annual": 0.3107265010781885,
+      "t_alpha": 1.3254730464920808,
+      "p_alpha": 0.1850143034351155
+    },
+    "sector=Consumer Staples": {
+      "label": "sector=Consumer Staples",
+      "n_events": 62,
+      "n_months": 9,
+      "skipped": true
+    },
+    "sector=Consumer Discretionary": {
+      "label": "sector=Consumer Discretionary",
+      "n_events": 84,
+      "n_months": 17,
+      "sharpe_annual": 0.5006577235773138,
+      "alpha_monthly": 0.017765460059094004,
+      "alpha_annual": 0.21318552070912805,
+      "t_alpha": 0.7284886359252299,
+      "p_alpha": 0.46631452264092554
+    },
+    "sector=Communication": {
+      "label": "sector=Communication",
+      "n_events": 21,
+      "n_months": 2,
+      "skipped": true
+    },
+    "size_q0": {
+      "label": "size_q0",
+      "n_events": 78,
+      "n_months": 13,
+      "sharpe_annual": -2.707742670111408,
+      "alpha_monthly": -0.1340187549107955,
+      "alpha_annual": -1.6082250589295461,
+      "t_alpha": -5.122521201861868,
+      "p_alpha": 3.014771846518482e-07
+    },
+    "size_q1": {
+      "label": "size_q1",
+      "n_events": 127,
+      "n_months": 32,
+      "sharpe_annual": 1.5598178586593212,
+      "alpha_monthly": 0.04749960909790814,
+      "alpha_annual": 0.5699953091748977,
+      "t_alpha": 2.7426527989191194,
+      "p_alpha": 0.006094508779804562
+    },
+    "size_q2": {
+      "label": "size_q2",
+      "n_events": 160,
+      "n_months": 42,
+      "sharpe_annual": 1.9327907268119286,
+      "alpha_monthly": 0.04903481809392579,
+      "alpha_annual": 0.5884178171271095,
+      "t_alpha": 4.270118867132233,
+      "p_alpha": 1.95368815436557e-05
+    },
+    "size_q3": {
+      "label": "size_q3",
+      "n_events": 208,
+      "n_months": 62,
+      "sharpe_annual": 0.20510700847454041,
+      "alpha_monthly": -0.0004484896246321382,
+      "alpha_annual": -0.005381875495585659,
+      "t_alpha": -0.0389364099004232,
+      "p_alpha": 0.9689410876652725
+    },
+    "size_q4": {
+      "label": "size_q4",
+      "n_events": 186,
+      "n_months": 48,
+      "sharpe_annual": 0.7783496453309274,
+      "alpha_monthly": 0.00949534363102203,
+      "alpha_annual": 0.11394412357226436,
+      "t_alpha": 1.0053926782919205,
+      "p_alpha": 0.31470780402765286
+    },
+    "liq_q0": {
+      "label": "liq_q0",
+      "n_events": 168,
+      "n_months": 50,
+      "sharpe_annual": 0.7543443344985887,
+      "alpha_monthly": 0.021165654688697286,
+      "alpha_annual": 0.25398785626436743,
+      "t_alpha": 2.444221325374247,
+      "p_alpha": 0.014516518054588801
+    },
+    "liq_q1": {
+      "label": "liq_q1",
+      "n_events": 170,
+      "n_months": 47,
+      "sharpe_annual": 0.8494806289688916,
+      "alpha_monthly": 0.019307260664646095,
+      "alpha_annual": 0.23168712797575314,
+      "t_alpha": 1.7903035440927964,
+      "p_alpha": 0.07340512683823434
+    },
+    "liq_q2": {
+      "label": "liq_q2",
+      "n_events": 175,
+      "n_months": 51,
+      "sharpe_annual": 0.26650508824154584,
+      "alpha_monthly": 0.005548590407193764,
+      "alpha_annual": 0.06658308488632517,
+      "t_alpha": 0.44081275255339014,
+      "p_alpha": 0.6593485605269955
+    },
+    "liq_q3": {
+      "label": "liq_q3",
+      "n_events": 147,
+      "n_months": 43,
+      "sharpe_annual": 0.14369557435914182,
+      "alpha_monthly": 0.0005202581909034172,
+      "alpha_annual": 0.0062430982908410065,
+      "t_alpha": 0.030561853939716513,
+      "p_alpha": 0.9756189640750239
+    },
+    "liq_q4": {
+      "label": "liq_q4",
+      "n_events": 97,
+      "n_months": 20,
+      "sharpe_annual": 1.607379959544567,
+      "alpha_monthly": 0.04351380513129966,
+      "alpha_annual": 0.522165661575596,
+      "t_alpha": 2.379642353766911,
+      "p_alpha": 0.017329448128862262
+    }
+  }
+}
