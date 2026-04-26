@@ -125,15 +125,21 @@ if view == "Overview":
 
     if alpha and "signals" in alpha:
         rows = []
-        for sig in ["A_bhar_2m", "B_bhar_2m"]:
-            if sig not in alpha["signals"]:
+        # Matched alpha summary uses keys like 'A_bhar_2m_matched';
+        # sector-mean (Day 4) summary uses 'A_bhar_2m'. Look in both.
+        candidate_sigs = ["A_bhar_2m_matched", "B_bhar_2m_matched",
+                          "A_bhar_2m", "B_bhar_2m"]
+        signals_present = alpha.get("signals", {})
+        for sig in candidate_sigs:
+            if sig not in signals_present:
                 continue
+            display = sig.replace("_matched", " (matched)")
             for w in ["FULL", "IS_2015_2021", "OOS_2022_2024"]:
-                b = alpha["signals"][sig].get(w, {})
+                b = signals_present[sig].get(w, {})
                 if not b.get("alpha"):
                     continue
                 rows.append({
-                    "Signal": sig, "Window": w,
+                    "Signal": display, "Window": w,
                     "n_months": b.get("n_months", "—"),
                     "Sharpe (raw)": round(b.get("raw_sharpe_annual", float("nan")), 2),
                     "α annual": f"{b['alpha'].get('alpha_annual', 0)*100:+.2f}%",
@@ -162,10 +168,18 @@ elif view == "Topic heatmap":
         df["sev_band"] = pd.cut(df["upload_severity_mean"],
                                   bins=[0, 0.2, 0.5, 0.8, 1.01],
                                   labels=["0-0.2", "0.2-0.5", "0.5-0.8", "0.8-1.0"])
-        # explode topics
+        # explode topics. The column may be a numpy.ndarray (parquet
+        # round-trip), a list, None, or a NaN scalar — handle all four.
         rows = []
         for _, r in df.iterrows():
-            for t in (r.get("upload_topics_consensus") or []):
+            topics = r.get("upload_topics_consensus")
+            if topics is None:
+                continue
+            try:
+                items = list(topics)
+            except TypeError:
+                continue
+            for t in items:
                 rows.append({"topic": t, "sev_band": r["sev_band"], "bhar_2m": r.get("bhar_a_2m")})
         if rows:
             sub = pd.DataFrame(rows).dropna(subset=["bhar_2m", "topic", "sev_band"])
