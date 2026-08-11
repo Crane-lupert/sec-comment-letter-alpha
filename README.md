@@ -2,6 +2,8 @@
 
 **Status**: 14-day timebox complete (2026-04-27). [GitHub](https://github.com/Crane-lupert/sec-comment-letter-alpha) + [Streamlit dashboard](https://sec-comment-letter-alpha-260427ah.streamlit.app) live. **한국어 실무 보고**: [README_KR.md](README_KR.md).
 
+> **SSRN preprint**: abstract_id **6729618** — <https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6729618> (DOI `10.2139/ssrn.6729618`, posted 2026-05-07). Ahn, Hyun. *"LLM Zero-Shot Replication of SEC Comment Letter Returns: An Out-of-Sample Reproducibility Test"*, working paper, 2026.
+
 ## What this is
 
 Cross-sectional equity alpha from ~5,000 R3K SEC `UPLOAD` (SEC → company) and `CORRESP` (company → SEC) letter pairs, 2015-2025, via a multi-LLM ensemble (gemma-3-27b + llama-3.3-70b + claude-opus-4.7 oracle). Pre-registered, held-out validated, contamination-audited. Final analyzable sample: 1,014 letter pairs.
@@ -173,3 +175,12 @@ Open-source, reproducible, pre-registered. If a finding can be cherry-picked, it
 ---
 
 Project X of QR Scout Portfolio. See `CLAUDE.md` for the day-by-day execution plan + advance gates + abandon criteria.
+
+## License
+
+Source code in this repository is released under the [MIT License](LICENSE).
+
+The working-paper text and its figures are **not** covered by that licence: they
+remain (c) 2026 Hyun Ahn, all rights reserved. Third-party data are governed by
+their original providers' terms and are not redistributed here. See
+[NOTICE](NOTICE) for the full scope statement.

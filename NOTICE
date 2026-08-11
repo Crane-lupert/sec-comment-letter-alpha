@@ -1,0 +1,19 @@
+NOTICE - scope of the licence in this repository
+
+1. Source code
+   The MIT Licence in LICENSE applies to the source code in this repository
+   (scripts, modules, notebooks, tests and configuration).
+
+2. Paper text and figures - NOT covered by the MIT Licence
+   The accompanying working-paper manuscript and its figures - the manuscript,
+   PDF and figure files under `docs/` and any other file reproducing the paper -
+   are Copyright (c) 2026 Hyun Ahn, All Rights Reserved. They are published here
+   so that the reported results can be read, checked and cited; redistribution
+   or the preparation of derivative works requires the author's written
+   permission. The version of record is the SSRN preprint.
+
+3. Third-party data
+   Data obtained from external providers are governed by those providers' own
+   terms and are not redistributed in this repository. Derived outputs committed
+   here exist so that the reported numbers can be verified, and convey no rights
+   in the underlying source data.
