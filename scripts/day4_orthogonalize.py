@@ -106,7 +106,7 @@ def analyze_window(rets: pd.DataFrame, french: pd.DataFrame, label: str, sig_id:
     else:
         residual_sharpe = float("nan")
     ci_lo, ci_hi = cluster_bootstrap_ci(y)
-    dsr = deflated_sharpe(raw_sharpe, len(y), N_TRIALS_DSR)
+    dsr = deflated_sharpe(raw_sharpe / np.sqrt(12), len(y), N_TRIALS_DSR)  # per-month SR, n = months (erratum 2026-10-10)
     return {
         "label": label, "signal_id": sig_id, "n_months": int(len(merged)),
         "month_range": f"{merged['month'].min().date()} .. {merged['month'].max().date()}",

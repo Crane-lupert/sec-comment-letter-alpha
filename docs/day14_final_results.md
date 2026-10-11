@@ -11,14 +11,16 @@
 
 | Signal | Window | n_months | Sharpe | α annual | t-stat | p | DSR |
 |---|---|---|---|---|---|---|---|
-| A 2m matched | FULL | 123 | 0.73 | +6.56% | 1.85 | 0.067 | 1.00 |
-| A 2m matched | IS 2015-21 | 78 | 0.37 | +6.85% | 0.74 | 0.46 | 0.95 |
-| **A 2m matched** | **OOS 2022-24** | **36** | **1.43** | **+11.92%** | **2.86** | **0.007** | **1.00** |
-| B 2m matched | FULL | 120 | 0.66 | +5.40% | 1.78 | 0.078 | 1.00 |
-| B 2m matched | IS 2015-21 | 75 | 0.14 | +2.78% | 0.43 | 0.67 | 0.39 |
-| **B 2m matched** | **OOS 2022-24** | **36** | **1.27** | **+7.22%** | **2.55** | **0.015** | **1.00** |
+| A 2m matched | FULL | 123 | 0.73 | +6.56% | 1.85 | 0.067 | 0.81‡ |
+| A 2m matched | IS 2015-21 | 78 | 0.37 | +6.85% | 0.74 | 0.46 | 0.30‡ |
+| **A 2m matched** | **OOS 2022-24** | **36** | **1.43** | **+11.92%** | **2.86** | **0.007** | **0.82**‡ |
+| B 2m matched | FULL | 120 | 0.66 | +5.40% | 1.78 | 0.078 | 0.73‡ |
+| B 2m matched | IS 2015-21 | 75 | 0.14 | +2.78% | 0.43 | 0.67 | 0.13‡ |
+| **B 2m matched** | **OOS 2022-24** | **36** | **1.27** | **+7.22%** | **2.55** | **0.015** | **0.75**‡ |
 
-**Headline claim**: out-of-sample 2022-2024 Signal A retains +11.9% annualized α, t=2.86, DSR=1.00. Signal B independent (t=2.55). IS pre-2022 weak under matched control.
+‡ Erratum (2026-10-10): DSR recomputed with the monthly Sharpe ratio (same formula, n_trials = 8); the earlier values used the annualized Sharpe ratio with monthly n and were overstated. Previously reported, in row order: 1.00 / 0.95 / 1.00 / 1.00 / 0.39 / 1.00. Alpha, t, p and Sharpe are unchanged.
+
+**Headline claim**: out-of-sample 2022-2024 Signal A retains +11.9% annualized α, t=2.86, DSR=0.82‡. Signal B independent (t=2.55). IS pre-2022 weak under matched control.
 
 ## Multiple-comparison FDR (BH α=0.05)
 

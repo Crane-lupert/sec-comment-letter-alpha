@@ -4,6 +4,8 @@
 
 > **SSRN preprint**: abstract_id **6729618** — <https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6729618> (DOI `10.2139/ssrn.6729618`, posted 2026-05-07). Ahn, Hyun. *"LLM Zero-Shot Replication of SEC Comment Letter Returns: An Out-of-Sample Reproducibility Test"*, working paper, 2026.
 
+> **Erratum (2026-10-10) — deflated Sharpe ratio.** The DSR values previously reported here and in the SSRN preprint (DSR = 1.00 for the Signal A and Signal B out-of-sample headline rows) were overstated. `scripts/day4_orthogonalize.py` passed the annualized Sharpe ratio (monthly x sqrt(12)) into a DSR formula whose variance term counts monthly observations. With the monthly Sharpe ratio and nothing else changed (same formula, n_trials = 8), the matched-control DSR is 0.82 for Signal A OOS (was 1.00), 0.75 for Signal B OOS (was 1.00), 0.81 / 0.73 for A / B FULL (was 1.00 / 1.00) and 0.30 / 0.13 for A / B IS (was 0.95 / 0.39). The OOS values are below the conventional 0.95 level. Alpha, t-statistics, p-values, Sharpe ratios and the BH-FDR results are unchanged. The headline remains the pre-registered main specification; the DSR layer no longer adds strong support to it.
+
 ## What this is
 
 Cross-sectional equity alpha from ~5,000 R3K SEC `UPLOAD` (SEC → company) and `CORRESP` (company → SEC) letter pairs, 2015-2025, via a multi-LLM ensemble (gemma-3-27b + llama-3.3-70b + claude-opus-4.7 oracle). Pre-registered, held-out validated, contamination-audited. Final analyzable sample: 1,014 letter pairs.
@@ -13,8 +15,8 @@ Cross-sectional equity alpha from ~5,000 R3K SEC `UPLOAD` (SEC → company) and 
 1. **Hypothesis**: SEC comment letters reveal firm-level disclosure vulnerabilities; letter content predicts post-letter abnormal returns through (topic × severity × response intent).
 2. **Method**: ensemble extraction → severity-weighted long-short with K=5 matched non-letter R3K controls (same sector, ±20% size band) → FF5+UMD residual α + Newey-West HAC + month-cluster bootstrap CI + Bailey-López de Prado DSR.
 3. **Headline (matched control, BHAR 2m, n=1,014 pairs)**:
-   - **Signal A** (UPLOAD-only, early-tradeable) **OOS 2022-2024**: α=**+11.92%/yr**, **t=2.86**, p=0.007, **DSR=1.00**, Sharpe 1.43, n_OOS=36 months.
-   - **Signal B** (UPLOAD+CORRESP, late-tradeable) OOS: α=+7.22%/yr, t=2.55, p=0.015, DSR=1.00, Sharpe 1.27.
+   - **Signal A** (UPLOAD-only, early-tradeable) **OOS 2022-2024**: α=**+11.92%/yr**, **t=2.86**, p=0.007, **DSR=0.82** (corrected 2026-10-10; was 1.00 — see Erratum), Sharpe 1.43, n_OOS=36 months.
+   - **Signal B** (UPLOAD+CORRESP, late-tradeable) OOS: α=+7.22%/yr, t=2.55, p=0.015, DSR=0.75 (corrected; was 1.00), Sharpe 1.27.
    - Honest finding: ~60% of Day 4 IS alpha was sector-residualization artifact (self-corrected on Day 6, both versions preserved). See [docs/day14_final_results.md](docs/day14_final_results.md) and [docs/day6_matched_control.md](docs/day6_matched_control.md).
 4. **Robustness**: TC break-even ~71 bps/month (3-15× margin over realistic 5-20 bps). LM 10-K sentiment ablation: signal independent (Signal B OOS t 1.98 → 2.45 with LM in baseline). Mid-cap (size_q1) concentration: +26%/yr t=3.15; large-cap zero alpha. **BH FDR survivors** (43 cells, α=0.05): 2 — non_gaap_metrics FULL (α=+33%, p_BH=0.041) + severity 0.5-0.8 OOS (α=+31%, p_BH=0.041). Plus pre-registered headline = **3 FDR-safe claims**.
 5. **Reproducibility**: pre-registration commits `c4cf77b`, `23cabfe`, `0819f75`. 1-command run: `scripts/day4_run_all.py`.
@@ -155,7 +157,7 @@ Three commit-locked pre-registrations:
 ## Honest acknowledgments
 
 - **Day 4 IS alpha was largely sector-residualization artifact.** Day 6 matched-control correction reveals the signal as primarily an OOS-2022-2024 phenomenon.
-- **Per-topic stratification fails BH FDR at α=0.05** (3 nominal hits / 40 cells, 0 BH-survivors). The headline DSR-corrected alpha is the only valid claim.
+- **Per-topic stratification fails BH FDR at α=0.05** (3 nominal hits / 40 cells, 0 BH-survivors). The pre-registered headline alpha is the only valid claim (its DSR across the 8 pre-registered cells is 0.82 — see Erratum).
 - **Universe survivorship**: PIT-union of 2018 + 2026 IWV holdings; pre-2018 R3K-only firms missing.
 - **Size proxy = adjusted close** (price-based), not market cap; for true cap matching needs WRDS access.
 - **PEAD baseline deferred**: yfinance EPS history insufficient (5 quarters only).

@@ -1,5 +1,7 @@
 # Overnight summary 2026-04-26 (Day 4 final + Day 5 baseline)
 
+> **정오표 (2026-10-10)**: 이 문서의 DSR 값 (1.00 / 0.98 / "≥ 0.96") 은 연율 Sharpe 를 월 관측 수 기준 식에 넣은 계산 오류로 과대했다. 표의 반올림 Sharpe 로 다시 계산하면 (식·n_trials = 8 그대로, 반올림 오차 약 ±0.01) B 2m FULL 0.97, IS 0.97, OOS 0.35, A 2m FULL 0.78, IS 0.66 이다. "DSR ≥ 0.96 on FULL/IS" 는 성립하지 않는다. 이 Day 4 수치는 Day 6 matched-control 결과 (`day14_final_results.md`) 로 대체되었다. 원래 값은 기록으로 아래에 그대로 둔다.
+
 ## 한 줄 정리
 
 **Pre-registered Signal B (UPLOAD+CORRESP, BHAR t+1..t+60) FULL Sharpe 1.10, alpha 8.00%/y, t=3.04, p=0.002, DSR=1.00; LM 10-K sentiment 추가해도 alpha 견고 (-0.25pp).**

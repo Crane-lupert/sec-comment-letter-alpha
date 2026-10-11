@@ -47,7 +47,7 @@ Click "Robustness" tab; point at size-quintile rows.
 
 Show docs/day7_fdr.md:
 
-> "First: per-topic and per-severity stratification — 40 eligible cells — fails Benjamini-Hochberg FDR at α=0.05. Three nominal p<0.05, zero survive correction. The headline DSR-corrected number is the only valid claim. Anyone slicing further is multiple-comparison hunting."
+> "First: per-topic and per-severity stratification — 40 eligible cells — fails Benjamini-Hochberg FDR at α=0.05. Three nominal p<0.05, zero survive correction. The pre-registered headline number is the only valid claim. Anyone slicing further is multiple-comparison hunting."
 
 Show contamination audit summary:
 

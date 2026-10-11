@@ -4,6 +4,8 @@ Pre-registered spec at git commit `c4cf77b` (2026-04-26 KST).
 Sample expanded from interim n=868 to final n=935 after extraction --n=5000
 on R3K-only universe with date-desc priority.
 
+> **Erratum (2026-10-10).** The DSR values in this file are overstated (annualized Sharpe ratio passed with monthly n). Recomputed from the rounded Sharpe ratios in these tables (same formula, n_trials = 8; about +-0.01 from rounding): B 2m FULL 0.97, IS 0.97, OOS 0.35; A 2m FULL 0.78, IS 0.66, OOS 0.26; FULL robustness cells B 1m 0.71, B 3m 0.30, A 1m 0.51, A 3m 0.33. Reading point 3 ("DSR=0.98") and point 5 ("DSR >= 0.96 on FULL for both signals") no longer hold as written; point 5 holds for Signal B only. These Day 4 numbers are superseded by the Day 6 matched-control results in `day14_final_results.md`. The original values are kept below for the record.
+
 ## Headline (pre-registered main cell)
 
 | Signal | Window | n_months | Sharpe (raw) | alpha (annualized) | t-stat | p | DSR | bootstrap 95% CI (monthly) |

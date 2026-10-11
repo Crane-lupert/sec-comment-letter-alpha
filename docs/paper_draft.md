@@ -12,7 +12,7 @@
 
 ## Abstract (~150 words, draft)
 
-Using a multi-LLM ensemble (gemma-3-27b, llama-3.3-70b, claude-opus-4.7) to extract topic, severity, and registrant-response intent from N=XXX SEC UPLOAD-CORRESP letter pairs across the Russell 3000 from 2015 to 2024, we test whether the comment-letter event predicts post-letter abnormal returns. After pre-registration of the event-study spec (commit `c4cf77b`) — BHAR over t+1..t+60 days, FF5+UMD residual, IS 2015-2021 / OOS 2022-2024 frozen — and a held-out validation of the registrant-perspective schema (κ_train 0.876 vs κ_test 0.856), we find that an early-tradeable signal (UPLOAD-only at upload_date) yields an annualized residual alpha of XX% (t=XX) in OOS under matched-non-letter control, concentrated in the size_q1-q2 mid-cap quintiles. The signal is independent of FF5+UMD+LM-10K-sentiment, contaminates audit (κ=1.000) does not invalidate, and survives 20bp/month transaction cost (Sharpe XX, t=XX). Per-topic and per-severity stratifications do not survive Benjamini-Hochberg FDR at α=0.05; the headline DSR-corrected signal is the only valid claim.
+Using a multi-LLM ensemble (gemma-3-27b, llama-3.3-70b, claude-opus-4.7) to extract topic, severity, and registrant-response intent from N=XXX SEC UPLOAD-CORRESP letter pairs across the Russell 3000 from 2015 to 2024, we test whether the comment-letter event predicts post-letter abnormal returns. After pre-registration of the event-study spec (commit `c4cf77b`) — BHAR over t+1..t+60 days, FF5+UMD residual, IS 2015-2021 / OOS 2022-2024 frozen — and a held-out validation of the registrant-perspective schema (κ_train 0.876 vs κ_test 0.856), we find that an early-tradeable signal (UPLOAD-only at upload_date) yields an annualized residual alpha of XX% (t=XX) in OOS under matched-non-letter control, concentrated in the size_q1-q2 mid-cap quintiles. The signal is independent of FF5+UMD+LM-10K-sentiment, contaminates audit (κ=1.000) does not invalidate, and survives 20bp/month transaction cost (Sharpe XX, t=XX). Per-topic and per-severity stratifications do not survive Benjamini-Hochberg FDR at α=0.05; the pre-registered headline signal is the only valid claim.
 
 ---
 
@@ -94,14 +94,16 @@ Using a multi-LLM ensemble (gemma-3-27b, llama-3.3-70b, claude-opus-4.7) to extr
 
 | Signal | Window | n_months | Sharpe | α annual | t | p | DSR |
 |---|---|---|---|---|---|---|---|
-| A (UPLOAD-only) | FULL | 123 | 0.73 | +6.56% | 1.85 | 0.067 | 1.00 |
-| A | IS 2015-2021 | 78 | 0.37 | +6.85% | 0.74 | 0.46 | 0.95 |
-| **A** | **OOS 2022-2024** | **36** | **1.43** | **+11.92%** | **2.86** | **0.007** | **1.00** |
-| B (UPLOAD+CORRESP) | FULL | 120 | 0.66 | +5.40% | 1.78 | 0.078 | 1.00 |
-| B | IS 2015-2021 | 75 | 0.14 | +2.78% | 0.43 | 0.67 | 0.39 |
-| **B** | **OOS 2022-2024** | **36** | **1.27** | **+7.22%** | **2.55** | **0.015** | **1.00** |
+| A (UPLOAD-only) | FULL | 123 | 0.73 | +6.56% | 1.85 | 0.067 | 0.81‡ |
+| A | IS 2015-2021 | 78 | 0.37 | +6.85% | 0.74 | 0.46 | 0.30‡ |
+| **A** | **OOS 2022-2024** | **36** | **1.43** | **+11.92%** | **2.86** | **0.007** | **0.82**‡ |
+| B (UPLOAD+CORRESP) | FULL | 120 | 0.66 | +5.40% | 1.78 | 0.078 | 0.73‡ |
+| B | IS 2015-2021 | 75 | 0.14 | +2.78% | 0.43 | 0.67 | 0.13‡ |
+| **B** | **OOS 2022-2024** | **36** | **1.27** | **+7.22%** | **2.55** | **0.015** | **0.75**‡ |
 
-The headline claim is the **OOS row of Signal A**: annualized residual α of +11.92% with t = 2.86 (p = 0.007), DSR = 1.00. Signal B is independent and corroborates (t = 2.55, p = 0.015). The IS pre-2022 windows are essentially zero under matched control — Day 6 self-correction reveals the original Day 4 IS magnitude was a sector-residualization artifact (we report the corrected number).
+‡ Erratum (2026-10-10): DSR recomputed with the monthly Sharpe ratio (same formula, n_trials = 8); the earlier values used the annualized Sharpe ratio with monthly n and were overstated. Previously reported, in row order: 1.00 / 0.95 / 1.00 / 1.00 / 0.39 / 1.00. Alpha, t, p and Sharpe are unchanged.
+
+The headline claim is the **OOS row of Signal A**: annualized residual α of +11.92% with t = 2.86 (p = 0.007), DSR = 0.82‡. Signal B is independent and corroborates (t = 2.55, p = 0.015). The IS pre-2022 windows are essentially zero under matched control — Day 6 self-correction reveals the original Day 4 IS magnitude was a sector-residualization artifact (we report the corrected number).
 
 ### 4.2 Robustness — sector / size / liquidity (full sample, sector-mean control for context)
 
